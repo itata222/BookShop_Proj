@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./bookShop.css">
+    <title>Book-Shop</title>
+</head>
+<body>
+    <div class="container">
+        <div class="upperBar">
+
+        </div>
+        <div class="mainBox">
+            <div class="sign-in-container">
+                <h3>Sign in</h3>
+                <form class="signInForm" id="signInForm">
+                    <input type="email" id="signin-email-text" placeholder="Email"/>
+                    <input type="password" id="signin-password-text" placeholder="Password"/>
+                    <div class="none error"></div>
+                    <button>Sign In</button>
+                </form>
+            </div>
+            <div class="join-container">  
+                <h3>Join</h3>
+                <form class="joinForm" id="joinForm">
+                    <input type="text" id="join-name-text" placeholder="Name"/>
+                    <input type="number" id="join-age-text" placeholder="Age"/>
+                    <input type="email" id="join-email-text"placeholder="Email"/>
+                    <input type="password" id="join-password-text" placeholder="Password"/>
+                    <div class="none error"></div>
+                    <button>Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="./bookShop.js"></script>
+</body>
+</html>
