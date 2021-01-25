@@ -8,10 +8,10 @@ const authAdminMiddleWare = require('../middlewares/authAdmin')
 const router = new express.Router();
 
 router.post('/bookshop/create-user', async (req, res) => {
-    const user = new User(req.body)
-    await user.generateAuthToken();
     try {
-        res.send(user)
+        const user = new User(req.body)
+        const currentToken = await user.generateAuthToken();
+        res.send({ user, currentToken })
     } catch (err) {
         res.status(400).send({
             status: 400,
@@ -21,7 +21,7 @@ router.post('/bookshop/create-user', async (req, res) => {
 })
 
 router.patch('/bookshop/edit-user', authUserMiddleWare, async (req, res) => {
-    const allowedUpdates = ['name', 'age', 'email', 'password']
+    const allowedUpdates = ['name', 'age', 'email', 'password', 'myBooks']
     for (let key in req.body) {
         if (!allowedUpdates.includes(key))
             return res.status(400).send({
@@ -54,8 +54,8 @@ router.delete('/bookshop/delete-user', authUserMiddleWare, async (req, res) => {
 router.post('/bookshop/login', async (req, res) => {
     try {
         const user = await User.findUserbyEmailAndPassword(req.body.email, req.body.password)
-        await user.generateAuthToken();
-        res.send(user)
+        const currentToken = await user.generateAuthToken();
+        res.send({ user, currentToken })
     } catch (err) {
         res.status(500).send({
             status: 500,
@@ -77,44 +77,38 @@ router.post('/bookshop/logout', authUserMiddleWare, async (req, res) => {
     }
 })
 
-router.post('/bookshop/getNewToken-user', authUserMiddleWare, async (req, res) => {
-    try {
-        req.user.tokens = req.user.tokens.filter((tokenDoc) => tokenDoc.token !== req.token)
-        const newToken = await req.user.generateAuthToken();
-        res.send({ newToken })
-    }
-    catch (err) {
-        res.status(500).send({
-            status: 500,
-            message: 'run out of time'
-        })
-    }
-})
 
 router.post('/bookshop/addToCart', authUserMiddleWare, async (req, res) => {
-    const title = req.query.title
+    const title = req.body.title
+    console.log(title, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    const buyedBook = await Book.findOne({ title })
+    const buyedBookId = buyedBook._id;
+    const buyedBookTitle = buyedBook.title;
+    const buyedBookPrice = buyedBook.price;
+    console.log(buyedBookId, buyedBookTitle, buyedBookPrice)
+    console.log('buyedbook:', buyedBook, 'endbook')
     try {
-        if (title) {
-            const user = req.user;
-            const book = Book.find({ title })
-            book.usersInCart = book.usersInCart.concat({ user })
-            await book.save();
-            res.send()
-        } else {
-            res.status(400).send({
-                message: 'lack of src'
-            })
-        }
-
-    } catch (err) {
-        res.status(500).send()
+        const user = req.user;
+        // user.myBooks = user.myBooks.concat({ buyedBookId, buyedBookTitle, buyedBookPrice })
+        console.log(buyedBookId)
+        user.myBooks = user.myBooks.concat({ book: buyedBook })
+        console.log(buyedBookId)
+        console.log('asdsadasdsada', user.myBooks)
+        await user.save();
+        res.send({ buyedBook, user })
+    }
+    catch (err) {
+        res.status(500).send(err)
     }
 })
 
-router.get('bookshop/user-cart', authUserMiddleWare, async (req, res) => {
+router.get('/bookshop/user-cart', authUserMiddleWare, async (req, res) => {
     try {
-        await req.user.populate('myBooks').execPopulate();
-        res.send(req.user.tasks)
+        const myCart = req.user
+        await myCart.populate('myBooks').execPopulate();
+        const isPopulated = myCart.populated('myBooks')
+        console.log(isPopulated)
+        res.send()
     } catch (err) {
         res.status(500).send(err)
     }

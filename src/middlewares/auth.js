@@ -3,15 +3,17 @@ const User = require('../models/userModel')
 
 const auth = async (req, res, next) => {
     try {
+        console.log('2')
         const token = req.header("Authorization").replace("Bearer ", "");
+        console.log('0')
         const data = jwt.verify(token, process.env.TOKEN_SECRET)
-
+        console.log('1')
         const user = await User.findOne({
             _id: data._id,
             "tokens.token": token
         })
         if (!user)
-            throw new Error();
+            throw new Error('user not authrized');
 
         req.user = user;
         req.token = token;

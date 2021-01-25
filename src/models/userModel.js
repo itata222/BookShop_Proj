@@ -8,33 +8,34 @@ const userSchema = new mongoose.Schema(
         name: {
             type: String,
             trim: true,
-            required: true
+            required: [true, "Must enter a Name"],
+
         },
         age: {
             type: Number,
-            required: true,
-            min: 12,
+            required: [true, 'Must enter an Age'],
+            min: [12, "Minimum age of 12"],
         },
         email: {
             type: String,
-            required: true,
+            required: [true, "Email is required"],
             trim: true,
             lowercase: true,
             unique: true,
             validate(value) {
                 if (!validator.isEmail(value)) {
-                    throw new Error("Invalid email");
+                    throw new Error("Invalid Email");
                 }
             },
         },
         password: {
             type: String,
-            required: true,
+            required: [true, "Password is required"],
             trim: true,
             validate(value) {
                 const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/;
                 if (!passRegex.test(value)) {
-                    throw new Error("password must contain big and small characters so as numbers");
+                    throw new Error("Password must contain big and small characters so as numbers");
                 }
             },
         },
@@ -48,8 +49,16 @@ const userSchema = new mongoose.Schema(
         ],
         isAdmin: {
             type: Boolean,
-            required: true
-        }
+            default: false
+        },
+        myBooks: [
+            {
+                book: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "Book"
+                }
+            }
+        ]
     },
     {
         timestamps: true,
@@ -58,11 +67,9 @@ const userSchema = new mongoose.Schema(
 
 userSchema.pre("save", async function (next) {
     const user = this;
-
     if (user.isModified("password")) {
         user.password = await bcrypt.hash(user.password, 8);
     }
-
     next();
 });
 
@@ -94,7 +101,6 @@ userSchema.methods.generateAuthToken = async function () {
 
     user.tokens = user.tokens.concat({ token });
     await user.save();
-
     return token;
 };
 
@@ -107,19 +113,6 @@ userSchema.methods.toJSON = function () {
 
     return userObj;
 };
-
-userSchema.virtual("myBooks", {
-    ref: "Book",
-    localField: "_id",
-    foreignField: "usersInCart.user",
-});
-
-// userSchema.pre("remove", async function (next) {
-//     const user = this;
-
-//     await Task.deleteMany({ user: user._id });
-//     next();
-// });
 
 const User = mongoose.model("User", userSchema);
 

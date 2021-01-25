@@ -15,7 +15,7 @@
         grid-template-rows: 5rem 10rem auto 2rem;
         grid-template-areas:
         "header header"
-        "cart main"
+        "nav main"
         "nav main"
         "footer footer";
         gap: 2px;
@@ -49,13 +49,6 @@
         font-size: 1rem;
         color:white;
         padding:0.2rem
-    }
-    .cartHome{
-        border: 1px solid black;
-        display: flex;
-        justify-content: space-evenly;
-        flex-direction: column;
-        align-items: center;
     }
     .searchBar{
         height: inherit;
@@ -144,6 +137,7 @@
 
 }
 /*---------------------------------------------*/
+
 .mainBox{
     display: grid;
     grid-template-rows: 1fr;
@@ -152,12 +146,14 @@
     "signin join";
     gap: 1px;
     position: absolute;
+    border: 1px solid black;
+    background-color: white;
     top: 5rem;
     left: 12%;
     margin: 5% auto;
     width: 75vw;
     height: 75vh;
-    background-color: white;
+    background-color: burlywood;
     padding: 1rem;
 }
 .sign-in-container{
@@ -216,6 +212,8 @@
     height: 2rem;
     border: none;
     margin-left: -6rem;
+    margin-top: 5rem;
+    cursor: pointer;
 }
 .joinForm button{
     background-color: #10BBD5;
@@ -223,7 +221,8 @@
     width: 15rem;
     height: 2rem;
     border: none;
-    margin:2rem 0 1rem -4.2rem;
+    margin:2rem 0 0 -4.2rem;
+    cursor: pointer;
 }
 .none{
     display: none;
@@ -261,7 +260,7 @@
   .closeModal {
     color: #aaaaaa;
     float: right;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
   }
   
@@ -271,5 +270,156 @@
     text-decoration: none;
     cursor: pointer;
   }
+  .modalImg{
+      float: left;
+      margin: 0.5rem;
+      flex-basis: 30%;
+  }
+  .modaldata{
+      flex-basis: 60%;
+      display: flex;
+      justify-content: space-between;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+  }
+  .bookInfoTitle{
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  .bookInfoAuthor{
+    margin-top: 0.5rem;
+    flex-basis: 10%;
+    font-size: 0.9rem;
+  }
+  .bookInfoDescription{
+      font-size: 0.9rem;
+      flex-basis: 50%;
+  }
+  .bookInfoPrice{
+    font-size: 1.5rem;
+  }
+  .bookInfoAddToCart{
+    border-radius:0%;
+    margin-top: 0.2rem;
+    width: inherit;
+  }
+  .bookInfoPriceAndButton{
+      flex-basis: 20%;
+      width: -webkit-fill-available;
+      cursor: pointer;
+  }
+  .inline-block{
+      display: inline-block;
+  }
 
+  .errorJoin{
+    color: red;
+    margin-left: -4.3rem;
+    width: 15rem;
+    margin-top: 0.5rem;
+    text-align: center;
+    max-height: fit-content;
+  }
+  .errorLogin{
+    color: red;
+    margin-top: -1rem;
+    margin-left: -5.8rem;
+    width: 15rem;
+    text-align: center;
+    max-height: fit-content;
+}
+
+/* user-page */
+
+  .logout{
+    border-radius: 10%;
+    text-decoration: none;
+    font-size: 1rem;
+    color: white;
+    padding: 0.2rem;
+  }
+  .myCartUrl{
+    border-radius: 10%;
+    text-decoration: none;
+    font-size: 1rem;
+    color: white;
+    padding: 0.2rem;
+  }
+
+  /*-----------------------cart-------------------*/
+  .cartH3{
+      text-align: center;
+  }
+  .cartContainer{
+    width: 50vw;
+    height: 40vw;
+    margin: 2rem auto;
+    background-color: #F0F0F0;
+  }
+  .cartBox{
+    display: grid;
+    grid-template-columns: 1fr 1fr 5fr;
+    grid-template-rows: 1fr 5fr 1.5fr;
+    grid-template-areas: 
+    "headerO headerQ headerB"
+    "mainO mainQ mainB"
+    "price price button";
+    height: 40vw;
+  }
+ 
+  .options-header{
+    grid-area: headerO;
+    text-align: center;
+    align-self: center;
+    height: fit-content;
+    border-right: 1px solid black;
+  }
+  .quantity-header{
+    grid-area: headerQ;
+    text-align: center;
+    align-self: center;
+    height: fit-content;
+    border-right: 1px solid black;
+  }
+  .title-header{
+    grid-area: headerB;
+    text-align: center;
+    align-self: center;
+    height: fit-content;
+  }
+  .cart-books{
+    grid-area: mainB;
+  }
+  .cart-quantity{
+    grid-area: mainQ;
+  }
+  .cart-options{
+    grid-area: mainO;
+  }
+  .cart-totalPrice{
+    grid-area: price;
+  }
+  .cart-payButton{
+    grid-area: button;
+    cursor: pointer;
+  }
+
+
+  .modalCart{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+  }
+  .continueShoppingButton{
+      flex-basis: 40%;
+      margin: 0.5rem;
+      cursor: pointer;    
+  }
+  .checkOutAndPayButton{
+    flex-basis: 40%;
+    margin: 0.5rem;
+    cursor: pointer;
+  }
+  
 /* smartphone */

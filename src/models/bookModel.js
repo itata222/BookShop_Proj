@@ -29,15 +29,7 @@ const bookSchema = new mongoose.Schema({
         type: Number,
         required: true,
         min: 1
-    },
-    usersInCart: [
-        {
-            user: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "User"
-            }
-        }
-    ]
+    }
 }, {
     timestamps: true
 })

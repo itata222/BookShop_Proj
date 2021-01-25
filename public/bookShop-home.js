@@ -1,4 +1,5 @@
 const logInOrJoin = document.getElementById('LoginOrJoin');
+const logout = document.getElementById('logout')
 const mainPage = document.getElementById('mainPage')
 const searchBookButton = document.getElementById('searchForm')
 const searchTitleText = document.getElementById('searchTitleText');
@@ -10,16 +11,19 @@ const JoinForm = document.getElementById('joinForm')
 
 const joinUrl = 'http://localhost:4000/bookshop/create-user'
 const loginUrl = 'http://localhost:4000/bookshop/login';
-const logoutUrl = 'http://localhost:4000/bookshop/logout'
+const logoutUrl = 'http://localhost:4000/bookshop/logout';
 const deleteMyAccountUrl = 'http://localhost:4000/bookshop/delete-user';
 
 const adminAddBookUrl = 'http://localhost:4000/bookshop/admins/create-book';
 const adminEditBookUrl = 'http://localhost:4000/bookshop/admins/edit-book?id='
 
-const allBooksUrl = 'http://localhost:4000/bookshop/home';//---
+const allBooksUrl = 'http://localhost:4000/bookshop/home';
 const searchBooksUrl = 'http://localhost:4000/bookshop/search';
 
 
+const notLoggedTryToAdd = () => {
+    alert('Hey! You must Login first to make a purchase')
+}
 const createCell = (book) => {
     const priceAndButtonContainer = document.createElement('div')
     const titleAndAuthorContainer = document.createElement('div')
@@ -29,13 +33,19 @@ const createCell = (book) => {
     bookImg.className = 'bookImg';
     bookImg.src = book.image
     bookImg.style.height = '100%';
-    bookImg.addEventListener('click', createModal)
+    bookImg.addEventListener('click', (event) => {
+        event.preventDefault();
+        createModal(book)
+    })
     const bookData = document.createElement('div')
     bookData.className = 'bookData'
     const bookTitle = document.createElement('div')
     bookTitle.className = 'bookTitle'
     bookTitle.innerHTML = book.title
-    bookTitle.addEventListener('click', createModal)
+    bookTitle.addEventListener('click', (event) => {
+        event.preventDefault();
+        createModal(book)
+    })
     const bookAuthor = document.createElement('div')
     bookAuthor.className = 'bookAuthor'
     bookAuthor.innerHTML = book.author
@@ -45,6 +55,8 @@ const createCell = (book) => {
     const bookAddToBasket = document.createElement('button')
     bookAddToBasket.className = 'bookAddToBasket button'
     bookAddToBasket.innerHTML = 'Add to basket'
+    bookAddToBasket.addEventListener('click', notLoggedTryToAdd)
+    bookAddToBasketDuplicate = bookAddToBasket;
     priceAndButtonContainer.appendChild(bookPrice)
     priceAndButtonContainer.appendChild(bookAddToBasket)
     titleAndAuthorContainer.appendChild(bookTitle)
@@ -57,12 +69,10 @@ const createCell = (book) => {
 }
 
 const renderBooksGet = (url) => {
-    console.log(url)
     while (mainPage.children.length > 0)
         mainPage.removeChild(mainPage.lastChild)
 
     fetch(url).then((res) => {
-
         if (res.ok)
             return res.json();
         else
@@ -76,50 +86,70 @@ const renderBooksGet = (url) => {
     })
 }
 
-searchBookButton.addEventListener('submit', (event) => {
+renderBooksGet(allBooksUrl)
 
+searchBookButton.addEventListener('submit', (event) => {
     event.preventDefault();
+    console.log('1')
     renderBooksGet(searchBooks());
     searchTitleText.value = "";
     searchMinPriceText.value = ""
     searchMaxPriceText.value = "";
 })
 
-const showHomePage = renderBooksGet(allBooksUrl)
-
 const createModal = (book) => {
-    let selectedTitle = event.target.nextSibling.children[0].children[0].innerHTML
-    let selectedAuthor = event.target.nextSibling.children[0].children[1].innerHTML
-    let selectedPrice = event.target.nextSibling.children[1].children[0].innerHTML
-    let selectedImgSrc = event.target.currentSrc;
+    let selectedTitle = book.title
+    let selectedAuthor = book.author
+    let selectedDescription = book.description
+    let selectedPrice = book.price + '$'
+    let selectedImgSrc = book.image;
     let img = document.createElement('img')
     img.src = selectedImgSrc;
-    const bookInfo = document.createElement('div')
+    img.className = "modalImg"
+    const bookInfoTitle = document.createElement('div')
+    bookInfoTitle.className = "bookInfoTitle"
+    const bookInfoAuthor = document.createElement('div')
+    bookInfoAuthor.className = "bookInfoAuthor";
+    const bookInfoDescription = document.createElement('div')
+    bookInfoDescription.className = "bookInfoDescription";
+    const bookInfoPriceAndButton = document.createElement('div')
+    bookInfoPriceAndButton.className = "bookInfoPriceAndButton"
+    const bookInfoPrice = document.createElement('div')
+    bookInfoPrice.className = "bookInfoPrice";
+    const bookInfoAddToBasketButton = document.createElement('button')
+    bookInfoAddToBasketButton.className = "bookInfoAddToCart button"
+    bookInfoAddToBasketButton.innerHTML = 'Add to basket';
+    bookInfoAddToBasketButton.addEventListener('click', notLoggedTryToAdd)
     const bookModal = document.createElement('div')
     bookModal.className = "modal block"
     const bookModalContent = document.createElement('div')
     bookModalContent.className = "modal-content"
-
     const closeModal = document.createElement('span')
     closeModal.className = "closeModal"
     closeModal.innerHTML = '&times';
     const modalData = document.createElement('div')
     modalData.className = 'modaldata'
-    bookInfo.innerHTML = selectedTitle
-    bookInfo.innerHTML = selectedAuthor
-    bookInfo.innerHTML = selectedPrice
-    modalData.appendChild(bookInfo)
+    bookInfoTitle.innerHTML = selectedTitle
+    bookInfoAuthor.innerHTML = selectedAuthor
+    bookInfoDescription.innerHTML = selectedDescription
+    bookInfoPrice.innerHTML = selectedPrice
+    bookInfoPriceAndButton.appendChild(bookInfoPrice)
+    bookInfoPriceAndButton.appendChild(bookInfoAddToBasketButton)
+    modalData.appendChild(bookInfoTitle)
+    modalData.appendChild(bookInfoAuthor)
+    modalData.appendChild(bookInfoDescription)
+    modalData.appendChild(bookInfoPriceAndButton)
     closeModal.onclick = function () {
-        bookModal.className = "modal none";
+        bookModal.remove();
     }
     window.onclick = function (event) {
         if (event.target == bookModal) {
-            bookModal.className = "modal none";
+            bookModal.remove();
         }
     }
-    bookModalContent.appendChild(closeModal)
     bookModalContent.appendChild(img)
     bookModalContent.appendChild(modalData)
+    bookModalContent.appendChild(closeModal)
     bookModal.appendChild(bookModalContent)
     mainPage.appendChild(bookModal)
 }
@@ -143,34 +173,10 @@ const searchBooks = () => {
     if (searchFinalUrl !== allBooksUrl)
         title.length > 0 ? searchFinalUrl = searchFinalUrl + `&title=${title}` : searchFinalUrl = searchFinalUrl
     else
-        title.length > 0 ? searchFinalUrl = searchFinalUrl + `?title=${title}` : allBooksUrl
+        title.length > 0 ? searchFinalUrl = searchBooksUrl + `?title=${title}` : allBooksUrl
 
     console.log(searchFinalUrl)
     return searchFinalUrl
 }
 
 
-// const renderBooksGet = (url) => {
-//     while (mainPage.children.length > 0)
-//         mainPage.removeChild(mainPage.lastChild)
-
-//     fetch(url, {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(data)
-//     }).then((res) => {
-//         if (res.ok)
-//             return res.json();
-//         else
-//             throw res;
-//     }).then((resJson) => {
-//         for (let book of resJson) {
-//             mainPage.appendChild(createCell(book))
-//             console.log(book.title)
-//         }
-//     }).catch((err) => {
-//         console.log(err)
-//     })
-// }
