@@ -43,6 +43,7 @@
         height: 100%;
         width: 60%;
     }
+    
     .LoginOrJoin{
         border-radius: 10%;
         text-decoration: none;
@@ -51,7 +52,8 @@
         padding:0.2rem
     }
     .searchBar{
-        height: inherit;
+        height: fit-content;
+        padding-bottom: 2rem;
         grid-area: nav;
         display: flex;
         justify-content: center;
@@ -116,6 +118,7 @@
     }
     .mainPage .cell .bookTitle{
         cursor: pointer;
+        margin: 0.2rem;
     }
     .mainPage .cell .bookAuthor{
         margin-top: 0.5rem;
@@ -274,6 +277,8 @@
       float: left;
       margin: 0.5rem;
       flex-basis: 30%;
+      width: 307px;
+      height: 400px;
   }
   .modaldata{
       flex-basis: 60%;
@@ -298,6 +303,7 @@
   }
   .bookInfoPrice{
     font-size: 1.5rem;
+    cursor:text;
   }
   .bookInfoAddToCart{
     border-radius:0%;
@@ -328,7 +334,18 @@
     width: 15rem;
     text-align: center;
     max-height: fit-content;
-}
+  }
+  .successLogIn{
+  max-width: 15rem;
+  height: fit-content;
+  text-align: center;
+  margin-right: 6rem ;
+  }
+  .successJoin{
+    max-width: 15rem;
+    height: fit-content;
+    text-align: center;
+  }
 
 /* user-page */
 
@@ -338,6 +355,7 @@
     font-size: 1rem;
     color: white;
     padding: 0.2rem;
+    cursor: pointer;
   }
   .myCartUrl{
     border-radius: 10%;
@@ -350,6 +368,7 @@
   /*-----------------------cart-------------------*/
   .cartH3{
       text-align: center;
+      color: #DEB887;
   }
   .cartContainer{
     width: 50vw;
@@ -359,52 +378,85 @@
   }
   .cartBox{
     display: grid;
-    grid-template-columns: 1fr 1fr 5fr;
-    grid-template-rows: 1fr 5fr 1.5fr;
+    grid-template-columns: 1fr 1fr 1fr 5fr;
+    grid-template-rows: 0.6fr 5fr 0.8fr;
     grid-template-areas: 
-    "headerO headerQ headerB"
-    "mainO mainQ mainB"
-    "price price button";
+    "headerO headerQ headerP headerB"
+    "mainO mainQ mainP mainB"
+    "button button price price";
     height: 40vw;
   }
- 
+
+  .cartBox div{
+    border-left-width: 0;
+    height: auto;
+    line-height: 2;
+    text-align: center;
+  }
+  
   .options-header{
     grid-area: headerO;
     text-align: center;
     align-self: center;
     height: fit-content;
-    border-right: 1px solid black;
+    font-weight: bold;
+    /* border-right: 1px solid black; */
   }
   .quantity-header{
     grid-area: headerQ;
     text-align: center;
     align-self: center;
     height: fit-content;
-    border-right: 1px solid black;
+    font-weight: bold;
+    /* border-right: 1px solid black; */
   }
   .title-header{
     grid-area: headerB;
     text-align: center;
     align-self: center;
     height: fit-content;
+    font-weight: bold;
+  }
+  .price-header{
+    grid-area: headerP;
+    text-align: center;
+    align-self: center;
+    height: fit-content;
+    font-weight: bold;
   }
   .cart-books{
     grid-area: mainB;
-  }
+    }
+  .cart-prices{
+    grid-area: mainP;
+   }
   .cart-quantity{
-    grid-area: mainQ;
+    grid-area: mainQ; 
   }
   .cart-options{
     grid-area: mainO;
-  }
-  .cart-totalPrice{
+    }
+  #cart-totalPrice{
     grid-area: price;
+    text-align: center;
+    line-height: 4.5;
+    border-top: 1px solid #ccc;
   }
-  .cart-payButton{
+  .bookTitleInCart,.bookPriceInCart,.bookQuantityInCart,.bookOptionsInCart{
+    border: 1px solid #ccc;
+  }
+
+  #cart-payButton{
+    height: auto;
+    text-align: center;
+    margin: 0;
+    line-height: 3;
+    padding: 0;
+    align-self: normal;
+    border-radius: 0;
     grid-area: button;
     cursor: pointer;
   }
-
 
   .modalCart{
       display: flex;
@@ -421,5 +473,21 @@
     margin: 0.5rem;
     cursor: pointer;
   }
-  
+  /* -------------------------------------- */
+
+  .adminModalForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .adminModalForm h4{
+    align-self: flex-start;
+    margin: 1rem;
+  }
+  .adminModalSrcText{
+    margin-bottom: 1rem;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 0;
+  } 
 /* smartphone */

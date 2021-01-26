@@ -3,11 +3,8 @@ const User = require('../models/userModel')
 
 const auth = async (req, res, next) => {
     try {
-        console.log('2')
         const token = req.header("Authorization").replace("Bearer ", "");
-        console.log('0')
         const data = jwt.verify(token, process.env.TOKEN_SECRET)
-        console.log('1')
         const user = await User.findOne({
             _id: data._id,
             "tokens.token": token
@@ -19,6 +16,7 @@ const auth = async (req, res, next) => {
         req.token = token;
         next();
     } catch (err) {
+        console.log(err)
         res.status(400).send({
             status: 400,
             message: 'lack of authentication'

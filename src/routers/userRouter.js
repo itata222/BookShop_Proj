@@ -80,20 +80,10 @@ router.post('/bookshop/logout', authUserMiddleWare, async (req, res) => {
 
 router.post('/bookshop/addToCart', authUserMiddleWare, async (req, res) => {
     const title = req.body.title
-    console.log(title, 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     const buyedBook = await Book.findOne({ title })
-    const buyedBookId = buyedBook._id;
-    const buyedBookTitle = buyedBook.title;
-    const buyedBookPrice = buyedBook.price;
-    console.log(buyedBookId, buyedBookTitle, buyedBookPrice)
-    console.log('buyedbook:', buyedBook, 'endbook')
     try {
         const user = req.user;
-        // user.myBooks = user.myBooks.concat({ buyedBookId, buyedBookTitle, buyedBookPrice })
-        console.log(buyedBookId)
         user.myBooks = user.myBooks.concat({ book: buyedBook })
-        console.log(buyedBookId)
-        console.log('asdsadasdsada', user.myBooks)
         await user.save();
         res.send({ buyedBook, user })
     }
@@ -104,12 +94,15 @@ router.post('/bookshop/addToCart', authUserMiddleWare, async (req, res) => {
 
 router.get('/bookshop/user-cart', authUserMiddleWare, async (req, res) => {
     try {
-        const myCart = req.user
-        await myCart.populate('myBooks').execPopulate();
-        const isPopulated = myCart.populated('myBooks')
-        console.log(isPopulated)
-        res.send()
+        let cartBooks = []
+        for (let bookDoc of req.user.myBooks) {
+            const bookId = bookDoc.book;
+            const foundBook = await Book.findById(bookId);
+            cartBooks.push(foundBook)
+        }
+        res.send(cartBooks)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
 })
@@ -157,20 +150,23 @@ router.patch('/bookshop/admins/edit-book', authAdminMiddleWare, async (req, res)
         if (!availableEdits.includes(key))
             return res.status(404).send({
                 status: 404,
-                message: 'didnt entered valid key to edit a specific book'
+                message: 'didnt entered valid key to edit a specific book' + key
             })
     }
     try {
+        console.log(_id)
         const book = await Book.findByIdAndUpdate(_id, req.body, {
             new: true,
             runValidators: true
         })
+        console.log(book)
         res.send(book)
     } catch (err) {
         res.status(500).send({
             status: 500,
             message: err.message
         })
+        console.log(err.message)
     }
 })
 

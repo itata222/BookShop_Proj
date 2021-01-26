@@ -1,4 +1,5 @@
 
+const myStorage = window.localStorage;
 const login_email = document.getElementById('signin-email-text');
 const login_password = document.getElementById('signin-password-text')
 const successLogin = document.getElementsByClassName('successLogIn')[0];
@@ -7,6 +8,7 @@ const join_age = document.getElementById('join-age-text')
 const join_email = document.getElementById('join-email-text');
 const join_password = document.getElementById('join-password-text')
 const successJoin = document.getElementsByClassName('successJoin')[0];
+const logout = document.getElementById('logout')
 
 const joinUrl = 'http://localhost:4000/bookshop/create-user'
 const loginUrl = 'http://localhost:4000/bookshop/login';
@@ -15,12 +17,11 @@ const deleteMyAccountUrl = 'http://localhost:4000/bookshop/delete-user';
 const adminAddBookUrl = 'http://localhost:4000/bookshop/admins/create-book';
 const adminEditBookUrl = 'http://localhost:4000/bookshop/admins/edit-book?id=';
 
-const signInForm = document.getElementById('signInForm')
+const signInForm = document.getElementById('signInForm');
 const JoinForm = document.getElementById('joinForm');
 const errorLogin = document.getElementsByClassName('errorLogin')[0];
 const errorJoin = document.getElementsByClassName('errorJoin')[0];
 
-let loggedToken;
 
 signInForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -34,16 +35,17 @@ JoinForm.addEventListener('submit', (event) => {
 
 })
 
+
 const userOnline = () => {
     setTimeout(() => {
-        window.location.href = 'http://localhost:4000/bookShop-usersHome.html';
-    }, 4000)
+        window.location.href = 'http://localhost:4000/bookShop-home.html';
+    }, 2000)
 }
 
 const adminOnline = () => {
     setTimeout(() => {
         window.location.href = 'http://localhost:4000/bookShop-home.html';
-    }, 8000)
+    }, 20000)
 }
 
 
@@ -81,7 +83,8 @@ const login = () => {
                     successLogin.innerHTML += `${data.user.name.toUpperCase()}, count till 5 and you'll be in the Home Page `;
                     userOnline();
                 }
-                loggedToken = data.currentToken
+                localStorage.setItem('myToken', data.currentToken);
+                localStorage.setItem('isAdmin', data.user.isAdmin);
             }
         })
         .catch((error) => {
@@ -131,7 +134,8 @@ const join = () => {
                     successJoin.innerHTML += `${data.user.name.toUpperCase()}, count till 5 and you'll be in the Home Page `;
                     userOnline();
                 }
-                loggedToken = data.currentToken
+                localStorage.setItem('myToken', data.currentToken);
+                localStorage.setItem('isAdmin', data.user.isAdmin);
             }
         })
         .catch((error) => {
@@ -142,5 +146,24 @@ const join = () => {
         });
 }
 
-
+const logoutFunc = () => {
+    const token = loggedToken;
+    fetch(logoutUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href = 'http://localhost:4000/bookShop-home.html';
+        })
+        .catch((error) => {
+            alert('Error:', error);
+        });
+}
+logout.addEventListener('click', logoutFunc)
 

@@ -1,3 +1,13 @@
+
+const token = localStorage.getItem('myToken');
+let connectedUserIsAdmin = localStorage.getItem('isAdmin');
+if (connectedUserIsAdmin === 'true')
+    connectedUserIsAdmin = true;
+else
+    connectedUserIsAdmin = false;
+
+console.log(connectedUserIsAdmin)
+console.log(token)
 const logInOrJoin = document.getElementById('LoginOrJoin');
 const logout = document.getElementById('logout')
 const mainPage = document.getElementById('mainPage')
@@ -5,7 +15,7 @@ const searchBookButton = document.getElementById('searchForm')
 const searchTitleText = document.getElementById('searchTitleText');
 const searchMinPriceText = document.getElementById('searchMinPriceText')
 const searchMaxPriceText = document.getElementById('searchMaxPriceText')
-
+const enterToCart = document.getElementById('myCartUrl')
 const signInForm = document.getElementById('signInForm')
 const JoinForm = document.getElementById('joinForm')
 
@@ -13,17 +23,28 @@ const joinUrl = 'http://localhost:4000/bookshop/create-user'
 const loginUrl = 'http://localhost:4000/bookshop/login';
 const logoutUrl = 'http://localhost:4000/bookshop/logout';
 const deleteMyAccountUrl = 'http://localhost:4000/bookshop/delete-user';
+const addToCartUrl = 'http://localhost:4000/bookshop/addToCart'
 
 const adminAddBookUrl = 'http://localhost:4000/bookshop/admins/create-book';
 const adminEditBookUrl = 'http://localhost:4000/bookshop/admins/edit-book?id='
+// const adminChangePhotoUrl = 'http://localhost:4000/bookshop/admins/changePhoto';
 
 const allBooksUrl = 'http://localhost:4000/bookshop/home';
 const searchBooksUrl = 'http://localhost:4000/bookshop/search';
 
-
-const notLoggedTryToAdd = () => {
-    alert('Hey! You must Login first to make a purchase')
+const changeToUserPage = () => {
+    if (!!localStorage.getItem('myToken')) {
+        enterToCart.className = 'myCartUrl block'
+        logInOrJoin.className = "LoginOrJoin none"
+        logout.className = "logout block";
+    }
+    else {
+        logInOrJoin.className = "LoginOrJoin block"
+        logout.className = "logout none";
+        enterToCart.className = 'myCartUrl none'
+    }
 }
+changeToUserPage();
 const createCell = (book) => {
     const priceAndButtonContainer = document.createElement('div')
     const titleAndAuthorContainer = document.createElement('div')
@@ -54,9 +75,15 @@ const createCell = (book) => {
     bookPrice.innerHTML = book.price + "$"
     const bookAddToBasket = document.createElement('button')
     bookAddToBasket.className = 'bookAddToBasket button'
-    bookAddToBasket.innerHTML = 'Add to basket'
-    bookAddToBasket.addEventListener('click', notLoggedTryToAdd)
-    bookAddToBasketDuplicate = bookAddToBasket;
+    bookAddToBasket.innerHTML = 'Add to basket';
+    if (!localStorage.getItem('myToken'))
+        bookAddToBasket.addEventListener('click', notLoggedTryToAdd)
+    else
+        bookAddToBasket.addEventListener('click', (event) => {
+            event.preventDefault();
+            addToCartFunc(book)
+        })
+
     priceAndButtonContainer.appendChild(bookPrice)
     priceAndButtonContainer.appendChild(bookAddToBasket)
     titleAndAuthorContainer.appendChild(bookTitle)
@@ -66,6 +93,9 @@ const createCell = (book) => {
     cell.appendChild(bookImg)
     cell.appendChild(bookData)
     return cell
+}
+const notLoggedTryToAdd = () => {
+    alert('Hey! You must Login first to make a purchase')
 }
 
 const renderBooksGet = (url) => {
@@ -90,13 +120,53 @@ renderBooksGet(allBooksUrl)
 
 searchBookButton.addEventListener('submit', (event) => {
     event.preventDefault();
-    console.log('1')
     renderBooksGet(searchBooks());
     searchTitleText.value = "";
     searchMinPriceText.value = ""
     searchMaxPriceText.value = "";
 })
+// const adminModal = () => {
+// const adminModalForm = document.createElement('form');
+// adminModalForm.className = "adminModalForm";
+// const adminModalSrcText = document.createElement('input')
+// adminModalSrcText.setAttribute('type', 'text');
+// adminModalSrcText.setAttribute('placeholder', 'image src');
+// adminModalSrcText.className = "adminModalSrcText";
+// const adminModalUpdateButton = document.createElement('button');
+// adminModalUpdateButton.className = "adminModalUpdateButton";
+// adminModalUpdateButton.innerHTML = 'Update Changes';
+// adminModalForm.appendChild(adminModalSrcText);
+// adminModalForm.appendChild(adminModalUpdateButton);
+// adminModalForm.addEventListener('click', (event) => {
+//     event.preventDefault();
+//     const newPhotoSrc = adminModalSrcText.value;
+//     const newTitle = bookInfoTitle.innerHTML;
+//     const newAuthor = bookInfoAuthor.innerHTML;
+//     const newDescription = bookInfoDescription.innerHTML;
+//     const newPrice = bookInfoPrice.innerHTML;
+//     const data = { title: newTitle, description: newDescription, price: newPrice, author: newAuthor, image: newPhotoSrc }
+//     const url = adminEditBookUrl + "?id=" + book._id;
+//     fetch(url, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//             "Authorization": `Bearer ${token}`
+//         },
+//         body: JSON.stringify(data),
+//     }).then((res) => {
+//         if (res.ok)
+//             return res.json();
+//         else
+//             throw new Error(res.status)
+//     }).then((resJson) => {
+//         console.log(resJson)
 
+//     }).catch((err) => {
+//         console.log(err)
+//     })
+// })
+
+// }
 const createModal = (book) => {
     let selectedTitle = book.title
     let selectedAuthor = book.author
@@ -119,7 +189,13 @@ const createModal = (book) => {
     const bookInfoAddToBasketButton = document.createElement('button')
     bookInfoAddToBasketButton.className = "bookInfoAddToCart button"
     bookInfoAddToBasketButton.innerHTML = 'Add to basket';
-    bookInfoAddToBasketButton.addEventListener('click', notLoggedTryToAdd)
+    if (!localStorage.getItem('myToken'))
+        bookInfoAddToBasketButton.addEventListener('click', notLoggedTryToAdd)
+    else
+        bookInfoAddToBasketButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            addToCartFunc(book)
+        })
     const bookModal = document.createElement('div')
     bookModal.className = "modal block"
     const bookModalContent = document.createElement('div')
@@ -146,6 +222,59 @@ const createModal = (book) => {
         if (event.target == bookModal) {
             bookModal.remove();
         }
+    }
+    if (connectedUserIsAdmin) {
+        console.log(connectedUserIsAdmin, 'asdasdsa')
+        bookInfoTitle.setAttribute('contenteditable', 'true')
+        bookInfoAuthor.setAttribute('contenteditable', 'true')
+        bookInfoDescription.setAttribute('contenteditable', 'true')
+        bookInfoPrice.setAttribute('contenteditable', 'true');
+        const adminModalChangesHeader = document.createElement('h4')
+        adminModalChangesHeader.innerHTML = "Admin's Updates"
+        const adminModalForm = document.createElement('form');
+        adminModalForm.className = "adminModalForm";
+        const adminModalSrcText = document.createElement('input')
+        adminModalSrcText.setAttribute('type', 'text');
+        adminModalSrcText.setAttribute('placeholder', 'image src');
+        adminModalSrcText.className = "adminModalSrcText";
+        const adminModalUpdateButton = document.createElement('button');
+        adminModalUpdateButton.className = "adminModalUpdateButton";
+        adminModalUpdateButton.innerHTML = 'Update Changes';
+        adminModalForm.appendChild(adminModalSrcText);
+        adminModalForm.appendChild(adminModalUpdateButton);
+        adminModalForm.addEventListener('click', (event) => {
+            event.preventDefault();
+            const image = adminModalSrcText.value;
+            const title = bookInfoTitle.innerHTML;
+            const author = bookInfoAuthor.innerHTML;
+            const description = bookInfoDescription.innerHTML;
+            const price = parseInt(bookInfoPrice.innerHTML.slice(0, bookInfoPrice.innerHTML.length - 1));
+            let data = { title, description, price, author }
+            if (image.length > 0)
+                data = { title, description, price, author, image }
+            const url = adminEditBookUrl + book._id;
+            console.log(data)
+            console.log(url)
+            fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify(data),
+            }).then((res) => {
+                if (res.ok)
+                    return res.json();
+                else
+                    throw new Error(res.message)
+            }).then((resJson) => {
+                console.log(resJson)
+
+            }).catch((err) => {
+                console.log(err)
+            })
+        })
+        bookModalContent.appendChild(adminModalForm)
     }
     bookModalContent.appendChild(img)
     bookModalContent.appendChild(modalData)
@@ -177,6 +306,78 @@ const searchBooks = () => {
 
     console.log(searchFinalUrl)
     return searchFinalUrl
+}
+
+const logoutFunc = () => {
+    fetch(logoutUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+        .then(data => {
+            console.log('Success:', data);
+            localStorage.removeItem('myToken');
+            localStorage.removeItem('isAdmin');
+            window.location.href = 'http://localhost:4000/bookShop-home.html';
+        })
+        .catch((error) => {
+            console.log(error)
+            alert('Error:', error);
+        });
+}
+logout.addEventListener('click', logoutFunc)
+
+const bookAddedModal = (bookTitle) => {
+    const bookModal = document.createElement('div')
+    bookModal.className = "modal block"
+    const bookModalContent = document.createElement('div')
+    bookModalContent.className = "modal-content modalCart"
+    const boughtBook = document.createElement('div')
+    boughtBook.innerHTML = `You just addded <b>${bookTitle}</b> to your cart! \n Choose your next step:`
+    const continueShoppingButton = document.createElement('button');
+    continueShoppingButton.innerHTML = "Continue Shopping"
+    continueShoppingButton.onclick = function () {
+        bookModal.remove();
+    }
+    const checkOutAndPayButton = document.createElement('button');
+    checkOutAndPayButton.innerHTML = "Proceed to Checkout"
+    checkOutAndPayButton.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = 'http://localhost:4000/bookShop-cart.html';
+    })
+    window.onclick = function (event) {
+        if (event.target == bookModal) {
+            bookModal.remove();
+        }
+    }
+    bookModalContent.appendChild(boughtBook)
+    bookModalContent.appendChild(checkOutAndPayButton)
+    bookModalContent.appendChild(continueShoppingButton)
+    bookModal.appendChild(bookModalContent)
+    mainPage.appendChild(bookModal)
+}
+const addToCartFunc = (book) => {
+    const title = book.title;
+    const data = { title }
+    console.log('you try to add to cart', data)
+    fetch(addToCartUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            bookAddedModal(title)
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 }
 
 
