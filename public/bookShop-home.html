@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./bookShop.css">
     <title>Book-Shop</title>
 </head>
-<body>
+<body class="phone comp">
     <div class="container">
         <div class="upperBar">
             <div class="upperLeft">
@@ -18,13 +18,21 @@
                     </a>
 				</h1>
 			</div>
-            <div class="upperCenter">
-                <a href="./bookShop-login&join.html" target="_blank" class="LoginOrJoin block" id="LoginOrJoin">Log In/Join</a>
-                <a class="logout none" id="logout">Log Out</a>
+            <blockquote class="upperCenter">
+               " Take A Good Book To Bad With You - Books Do Not Snore. "
+            </blockquote>
+            <div class="none phoneAdminAddBook"></div>
+            <div class="upperRight-phone upperRight">
+                <a href="./bookShop-login&join.html" class="LoginOrJoin block" id="LoginOrJoin">Log In/Join</a>
+                <a href="./bookShop-home.html" class="logout none" id="logout">Log Out</a>
+                <a href="./bookShop-cart.html" target="_blank" class="none myCartUrl" id="myCartUrl">My Cart</a>
             </div>
-            <div class="upperRight">
-                <a href="./bookShop-cart.html" class="none myCartUrl" id="myCartUrl">My Cart</a>
-            </div>
+        </div>
+        <div class="phoneSearchBar">
+            <form id="searchForm-phone" class="searchForm-phone">
+                <input type="text" id="searchTitleText-phone" class="searchTitleText searchTitleText-phone" placeholder="Book's title"/>
+                <button class="button"id="searchButton-phone">Search</button>
+            </form>
         </div>
         <div class="mainPage" id="mainPage">
            
@@ -32,17 +40,35 @@
         <div class="searchBar">
             <form id="searchForm" class="searchForm">
                 <label>Book Title</label>
-                <input type="text" id="searchTitleText" placeholder="book's title"/>
+                <input type="text" id="searchTitleText" class="searchTitleText"/>
                 <label>Min Price</label>
-                <input type="number" id="searchMinPriceText" />
+                <input type="number" id="searchMinPriceText" class="searchMinPriceText" />
                 <label>Max Price</label>
-                <input type="number" id="searchMaxPriceText" />
+                <input type="number" id="searchMaxPriceText" class="searchMaxPriceText" />
                 <button class="button">Search</button>
             </form>
         </div>
-        <div class="lowerBar">
-            all credit to Itamar Hagai
+        <div class="adminAddBook" id="adminAddBook">
+            <h3>ADD Book</h3>
+            <h6>Admins option</h6>
+            <form class="adminAddBookForm" id="adminAddBookForm">
+                <input class="addedBookTitle" id="addedBookTitle" type="text" placeholder="Title"/>
+                <input class="addedBookAuthor" id="addedBookAuthor" type="text" placeholder="Author"/>
+                <textarea class="addedBookDescription" id="addedBookDescription" type="text" placeholder="Description"></textarea>
+                <input class="addedBookPrice" id="addedBookPrice" type="number" placeholder="Price"/>
+                <input class="addedBookImageSrc" id="addedBookImageSrc" type="text" placeholder="Image source"/>
+                <button class="button">Add Book</button>
+            </form>
+            <div class="addBookError none" id="addBookError"></div>
         </div>
+        <footer class="lowerBar">
+            <div class="footer-left">
+                © Copyright - Itamar-Hagai
+            </div>
+            <div class="footer-right">
+                
+            </div>
+        </footer>
     </div>
     <script src="./bookShop-home.js"></script>
 </body>

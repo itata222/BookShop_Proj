@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="./bookShop.css">
     <title>Book-Shop</title>
 </head>
-<body>
+<body class="phone comp">
     <div class="container">
         <div class="upperBar">
             <div class="upperLeft">
@@ -18,25 +18,24 @@
                     </a>
 				</h1>
 			</div>
-            <div class="upperCenter">
-                <a href="./bookShop-login&join.html" target="_blank" class="LoginOrJoin block" id="LoginOrJoin">Log In/Join</a>
-                <a href="./bookShop-home.html" class="logout none" id="logout">Log Out</a>
-            </div>
+            <blockquote class="upperCenter">
+               " Take A Good Book To Bad With You - Books Do Not Snore. "
+            </blockquote>
             <div class="upperRight">
-                <a href="./bookShop-cart.html" class="none myCartUrl">My Cart</a>
+                <a href="./bookShop-login&join.html" class="LoginOrJoin block" id="LoginOrJoin">Log In/Join</a>
+                <a href="./bookShop-home.html" class="logout none" id="logout">Log Out</a>
+                <a href="./bookShop-cart.html" target="_blank" class="none myCartUrl" id="myCartUrl">My Cart</a>
             </div>
-            
         </div>
-        
-        <div class="mainBox">
-            <div class="sign-in-container">
-                <h3>Sign in</h3>
-                <form class="signInForm" id="signInForm">
+        <div class="mainBox mainBox-phone">
+            <div class="sign-in-container sign-in-container-phone">
+                <h3 class="phoneH3 compH3">Sign in</h3>
+                <form class="signInForm signInForm-phone" id="signInForm">
                     <input type="email" id="signin-email-text" placeholder="Email"/>
                     <input type="password" id="signin-password-text" placeholder="Password"/>
-                    <div class="none errorLogin">Unable to log-in</div>
+                    <div class="none errorLogin errorLogin-phone">Unable to log-in</div>
                     <div class="none successLogIn">Welcome Back </div>
-                    <button>Sign In</button>
+                    <button class="phoneLogBut compLogBut">Sign In</button>
                 </form>
             </div>
             <div class="join-container">  
@@ -46,9 +45,9 @@
                     <input type="number" id="join-age-text" placeholder="   Age"/>
                     <input type="email" id="join-email-text"placeholder="Email"/>
                     <input type="password" id="join-password-text" placeholder="Password"/>
-                    <div class="none errorJoin">Try again...</div>
+                    <div class="none errorJoin errorJoin-phone">Try again...</div>
                     <div class="none successJoin">Welcome, </div>
-                    <button>Sign Up</button>
+                    <button class="phoneJoinBut phoneJoinBut-phone">Sign Up</button>
                 </form>
             </div>
         </div>

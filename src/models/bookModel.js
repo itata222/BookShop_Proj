@@ -5,19 +5,18 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 1
+
     },
     title: {
         type: String,
         required: true,
         trim: true,
-        minlength: 1,
     },
     author: {
         type: String,
         required: true,
         trim: true,
-        minlength: 1
+
     },
     description: {
         type: String,
@@ -34,14 +33,12 @@ const bookSchema = new mongoose.Schema({
     timestamps: true
 })
 
-bookSchema.methods.toJSON = function () {
-    const book = this;
-    const bookObj = book.toObject();
+// bookSchema.methods.toJSON = function () {
+//     const book = this;
+//     const bookObj = book.toObject();
 
-    delete bookObj.usersInCart;
-
-    return bookObj;
-};
+//     return bookObj;
+// };
 
 const Book = mongoose.model('Book', bookSchema)
 

@@ -68,7 +68,7 @@ router.post('/bookshop/logout', authUserMiddleWare, async (req, res) => {
     try {
         req.user.tokens = req.user.tokens.filter((tokenDoc) => tokenDoc.token !== req.token)
         await req.user.save()
-        res.send()
+        res.send(req.user)
     } catch (err) {
         res.status(500).send({
             status: 500,
@@ -76,6 +76,7 @@ router.post('/bookshop/logout', authUserMiddleWare, async (req, res) => {
         })
     }
 })
+
 
 
 router.post('/bookshop/addToCart', authUserMiddleWare, async (req, res) => {
@@ -107,19 +108,61 @@ router.get('/bookshop/user-cart', authUserMiddleWare, async (req, res) => {
     }
 })
 
+router.patch('/bookshop/user-edit-cart', authUserMiddleWare, async (req, res) => {
+    const allRemainingBooks = req.body;
+    try {
+        req.user.myBooks = [];
+        for (let bookTitle in allRemainingBooks) {
+            const bookDoc = await Book.findOne({ "title": allRemainingBooks[bookTitle] })
+            req.user.myBooks = req.user.myBooks.concat({ book: bookDoc })
+        }
+        await req.user.save();
+        res.send(req.user.myBooks)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err)
+    }
+})
+
 //-------------------------------------user----------------------------------
 //-------------------------------------user----------------------------------
 
 router.post('/bookshop/admins/create-book', authAdminMiddleWare, async (req, res) => {
-    const book = new Book(req.body)
     try {
-        await book.save()
+        const book = new Book(req.body)
+        let savedBook = await book.save()
+        console.log(savedBook)
         res.send(book)
     } catch (err) {
-        res.status(500).send({
+        console.log('---------------------------------')
+        let finalError = "";
+        let seperateError = err.message.split(',');
+        for (let partErr of seperateError) {
+            const firstSign = partErr.indexOf('`');
+            partErr = partErr.substring(firstSign)
+            finalError += partErr + " ";
+        }
+        finalError = finalError.replaceAll('`', '')
+        const pointIndex = finalError.indexOf('.')
+        finalError = finalError.slice(0, pointIndex)
+
+        // finalError = finalError.replaceAll(' is required.', ',');
+        // console.log(finalError, '1')
+        // const lastChar = finalError.lastIndexOf(',');
+        // finalError = finalError.slice(0, lastChar);
+        // console.log(finalError, '2')
+        // const lastCharSep = finalError.lastIndexOf(',');
+        // finalError = finalError.slice(0, lastCharSep) + ' and' + finalError.slice(lastCharSep + 1);
+        // console.log(finalError, '3')
+        // finalError = finalError.split(',').length > 0 ? finalError + ' are required' : finalError + ' is required';
+        // console.log(finalError, '4')
+
+        const errObj = {
             status: 500,
-            message: err.message
-        })
+            message: finalError
+        }
+        console.log(errObj)
+        res.status(500).send(errObj)
     }
 })
 
@@ -133,7 +176,7 @@ router.delete('/bookshop/admins/delete-book', authAdminMiddleWare, async (req, r
                 message: 'didnt entered a book to delete'
             })
         }
-        res.send('deleted book:' + book)
+        res.send(book)
     } catch (err) {
         res.status(500).send({
             status: 500,
@@ -170,20 +213,5 @@ router.patch('/bookshop/admins/edit-book', authAdminMiddleWare, async (req, res)
     }
 })
 
-
-router.get("/bookshop/admins/getAll-Users", authAdminMiddleWare, async (req, res) => {
-    try {
-        const users = await User.find({ isAdmin: false });
-        if (users.length === 0) {
-            return res.status(404).send({
-                status: 404,
-                message: "no admins",
-            });
-        }
-        res.send(users);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-});
 
 module.exports = router

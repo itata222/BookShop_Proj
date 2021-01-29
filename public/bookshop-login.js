@@ -39,13 +39,13 @@ JoinForm.addEventListener('submit', (event) => {
 const userOnline = () => {
     setTimeout(() => {
         window.location.href = 'http://localhost:4000/bookShop-home.html';
-    }, 2000)
+    }, 5000)
 }
 
 const adminOnline = () => {
     setTimeout(() => {
         window.location.href = 'http://localhost:4000/bookShop-home.html';
-    }, 20000)
+    }, 5000)
 }
 
 
@@ -117,8 +117,8 @@ const join = () => {
                     errorJoin.innerHTML = "Email already in use..."
                 }
                 else {
-                    const startFromError = data.user.message.lastIndexOf(':')
-                    errorJoin.innerHTML = data.user.message.slice(startFromError + 1)
+                    const startFromError = data.message.lastIndexOf(':')
+                    errorJoin.innerHTML = data.message.slice(startFromError + 1)
                 }
             }
             else {
@@ -130,7 +130,7 @@ const join = () => {
                 else {
                     errorJoin.classList.remove('block')
                     errorJoin.classList.add('none')
-                    successJoin.className = "successLogIn block";
+                    successJoin.className = "successJoin block";
                     successJoin.innerHTML += `${data.user.name.toUpperCase()}, count till 5 and you'll be in the Home Page `;
                     userOnline();
                 }
@@ -139,10 +139,10 @@ const join = () => {
             }
         })
         .catch((error) => {
+            console.log(error)
             errorJoin.classList.remove('none')
             errorJoin.classList.add('block')
             errorJoin.innerHTML = error.message.slice(23)
-            console.log('Error:', error);
         });
 }
 
