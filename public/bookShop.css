@@ -1,3 +1,6 @@
+/* smartPhone */
+
+
 .phone{
   box-sizing: border-box;
   font-family: 'Roboto Condensed', sans-serif;
@@ -9,13 +12,13 @@
   height: 100vh;
   display: grid;
   grid-template-columns:100% ;
-  grid-template-rows: 5rem 3rem auto 2rem;
+  grid-template-rows: 5rem max-content 4rem auto 2rem;
   grid-template-areas:
   "headerP "
+  "adminP"
   "navP "
   "mainP "
   "footerP";
-  gap: 5px;
 }
 .upperBar{
   width: 100%;
@@ -27,14 +30,12 @@
   flex-direction: row;
   align-items: center;
 }
-/* .container-cart{
-margin: 0 auto;
-width: 100%;
-height: 100vh;
-gap: 5px;
-} */
+
 .upperLeft{
   margin-left: 1rem;
+}
+.upperLeftLogin{
+  margin-left: 8rem;
 }
 .upperCenter{
 display: none;
@@ -50,20 +51,75 @@ width: 5rem;
   width: 60%;
 }
 .phoneSearchBar{
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
   grid-area: navP;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
 }
+.searchBar{
+  display: none;
+}
 .searchForm{
   display: none;
 }
-.adminAddBook{
+.adminAddBook, .adminAddBook h3, .adminAddBook h6, .adminAddBookForm{
   display: none;
+}
+.phoneAdminAddBook{
+  display: block;
+}
+ .phoneAdminAddBook h3, .phoneAdminAddBook h6{
+  margin: 0.3rem;
+  text-align: center;
+}
+.adminAddBookForm-phone{
+  display: flex;
+  grid-area: adminP;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  height: fit-content;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding-bottom: 1rem;
+  border-bottom: inset;
+}
+.adminAddBookForm-phone input, .adminAddBookForm-phone button{
+  width: inherit;
+  height: 2rem;
+  margin: 0.5rem;
+  text-align: center;
+  border: 0.2px solid black;
+}
+.adminAddBookForm-phone textarea{
+  width: inherit;
+  height: 4rem;
+  margin: 0.5rem;
+  line-height: 4.5;
+  text-align: center;
+  border: 0.2px solid black;
+  text-align: center;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+#addBookError-phone{
+  margin: 0.5rem;
+  text-align: center;
+  width: inherit;
+  height: fit-content;
+  color: red;
+}
+#addBookError{
+  display: none;
+}
+#adminAddButton-phone{
+  height: auto;
+  width: 45%;
 }
 .LoginOrJoin{
   text-decoration: none;
-  font-size: 0.5rem;
+  font-size: 1rem;
   color:white;
   padding:0.2rem;
   height: 100%;
@@ -92,54 +148,16 @@ padding: 0.5rem;
 }
 #searchButton-phone{
   margin: 0 1rem 0 3rem;
+  border: 1px solid black;
 }
 .searchTitleText-phone{
   margin-left: 1rem;
   float: left;
   border: 1px solid black;
-  height: -webkit-fill-available;
+  height: 2.65rem;
+  ;
 }
-.adminAddBook{
-/* grid-area: admin;
-margin-top: 10rem;
-background-color: #F0F0F0;
-text-align: center; */
-}
-.adminAddBook h3{
-margin-bottom: 0;
-}
-.adminAddBook h6{
-margin-top: 0.2rem;
-}
-.adminAddBookForm{
-/* display: flex;
-flex-direction: column;
-justify-content: space-around;
-align-content: center;
-text-align: center; */
-}
-.adminAddBookForm button{
-/* width: 10rem;
-padding: 0.7rem;
-align-self: center; */
-}
-.adminAddBook input{
-/* margin-top: 1rem;
-text-align: center; */
-}
-.addedBookDescription{
-/* margin-top: 1rem;
-text-align: center;
-max-width: inherit;
-min-height: 4rem;
-resize: vertical; */
-}
-.addBookError{
-/* margin-top: 1rem;
-width: inherit;
-height: fit-content;
-color: red; */
-}
+
 .button{
   margin-top: 2rem;
   background-color: turquoise;
@@ -229,7 +247,7 @@ line-height: 2;
   gap: 2rem;
   border: 1px solid black;
   background-color: white;
-  margin: 0 auto;
+  margin: 0.2rem auto;
   width: 90vw;
   height: fit-content;
   background-color: burlywood;
@@ -269,13 +287,13 @@ max-height: fit-content;
 max-width: 15rem;
 height: fit-content;
 text-align: center;
-margin-right: 6rem ;
+margin-top: 0.5rem;
 }
 .successJoin{
 max-width: 15rem;
 height: fit-content;
 text-align: center;
-margin-right: 4rem ;
+margin-top: 0.5rem;
 }
 .signInForm-phone, .signInForm{
   grid-area: signin;
@@ -322,7 +340,7 @@ margin-right: 4rem ;
   width: 15rem;
   height: 2rem;
   border: none;
-  margin-top: 4rem;
+  margin-top: 3rem;
   margin-bottom: 1.3rem;
   cursor: pointer;
 }
@@ -332,7 +350,7 @@ margin-right: 4rem ;
   width: 15rem;
   height: 2rem;
   border: none;
-  margin-top: 4rem;
+  margin-top: 3rem;
   cursor: pointer;
 }
 .none{
@@ -343,26 +361,23 @@ margin-right: 4rem ;
 }
 
 .modal,.modal-phone {
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
+  position: fixed; 
+  z-index: 1;
+  width: 100%; 
+  height: 100%;
   top: 0;
   left: 0;
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  overflow: auto;
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
 }
 
-/* Modal Content */
+
 .modal-content {
   background-color: #fefefe;
   margin: auto;
   border: 1px solid #888;
   width: 80%;
-  /* display: flex;
-  justify-content: space-around;
-  flex-direction: column; */
 }
 .modalCart{
   background-color: #fefefe;
@@ -412,7 +427,8 @@ margin-right: 4rem ;
 
 .modalImg,.modalImg-phone{
     margin: 0.5rem;
-    flex-basis: 20%;
+    /* flex-basis: 20%; */
+    width: -webkit-fill-available;
 }
 .modaldata,.modaldata-phone{
     flex-basis: 50%;
@@ -429,22 +445,25 @@ margin-right: 4rem ;
   font-weight: bold;
 }
 .bookInfoAuthor{
-  margin-top: 0.5rem;
+  margin-top: 0.3rem;
   flex-basis: 10%;
   font-size: 0.9rem;
 }
 .bookInfoDescription{
+  margin-top: 0.8rem;
     font-size: 0.9rem;
     flex-basis: 50%;
 }
 .bookInfoPrice{
   font-size: 1.5rem;
   cursor:text;
+  color:rgb(5, 177, 117);
+  margin-top: 0.2rem;
 }
 .bookInfoAddToCart{
   border-radius:0%;
-  margin-top: 0.2rem;
-  width: inherit;
+  margin-top: 0.5rem;
+  width: 80%;
 }
 .bookInfoPriceAndButton{
     flex-basis: 20%;
@@ -460,52 +479,80 @@ margin-right: 4rem ;
 /*-----------------------cart-------------------*/
 
 .cartH1-phone{
-  
   text-align: center;
   color: #e1942f;
 }
-
 .cartContainer-phone{
-
-  height: 90vh;
-  margin: 1rem auto;
+  height: fit-content;
   background-color: #F0F0F0;
  }
-
 .cartBox-phone{
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 5fr;
-  grid-template-rows: 0.6fr 5fr 0.8fr;
+  grid-template-columns: 1.5fr 1fr 1fr 5fr;
+  grid-template-rows: 0.6fr 6fr 0.8fr;
   grid-template-areas: 
   "headerO headerQ headerP headerB"
   "main main main main"
   "footerButton footerButton footerPrice footerPrice";
   height: 80%;
 }
-
-.cart-containers div div{
-  border-left-width: 0;
-  height: 3rem;
-  line-height: 3;
-  text-align: center;
-}
-
 .options-header{
   grid-area: headerO;
   text-align: center;
   align-self: center;
   height: fit-content;
   font-weight: bold;
-  /* border-right: 1px solid black; */
+}
+.cart-containers div div{
+  border-left-width: 0;
+  height: 3rem;
+  line-height: 3;
+  text-align: center;
+  overflow: auto;
+}
+.alertModal{
+  display: none; 
+}
+.alertModal-phone{
+  display: block;
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 100px;
+  padding-bottom: 100px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%;
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+.alertNotLogged{
+  display: none;
+}
+.alertNotLogged-phone{
+  display: block;
+  background-color: #fefefe;
+  margin: 50% auto;
+  margin-bottom: 10rem;
+  padding: 20px;
+  color: red;
+  border: 1px solid #888;
+  width: 80%;
+  text-align: center;
 }
 .quantity-header{
+
   grid-area: headerQ;
-  text-align: center;
-  align-self: center;
-  height: fit-content;
-  font-weight: bold;
-  /* border-right: 1px solid black; */
+    text-align: center;
+    align-self: center;
+    height: fit-content;
+    max-width: 2rem;
+    overflow: auto;
+    margin-left: 0.3rem;
+    font-weight: bold;
 }
+
 .title-header{
   grid-area: headerB;
   text-align: center;
@@ -525,7 +572,7 @@ margin-right: 4rem ;
   grid-area: main;
   overflow: auto;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 5fr;
+  grid-template-columns:1.5fr 1fr 1fr 5fr;
   grid-template-areas:
   "option quantity price titles";
 }
@@ -539,21 +586,23 @@ margin-right: 4rem ;
   grid-area: quantity; 
 }
 .cart-options{
-  grid-area: option;
-  }
-#cart-totalPrice{
+  grid-area: option; 
+}
+
+.cart-totalPrice-phone{
+  line-height: 1.9;
   grid-area: footerPrice;
   text-align: center;
-  line-height: 4.5;
   border-top: 1px solid #ccc;
 }
+
 .bookTitleInCart,.bookPriceInCart,.bookQuantityInCart{
   border: 1px solid #ccc;
 }
 .bookOptionsInCart{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   border: 1px solid #ccc;
 }
@@ -561,15 +610,23 @@ margin-right: 4rem ;
   cursor: pointer;
   height: inherit;
   width: inherit;
+  flex-basis: 35%;
 }
-
+.totalPriceP{
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+.totalQuantityP{
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
 #cart-payButton{
   height: auto;
   text-align: center;
   margin: 0;
   line-height: 3;
   padding: 0;
-  align-self: normal;
+  align-self: center;
   border-radius: 0;
   grid-area: footerButton;
   cursor: pointer;
@@ -596,71 +653,37 @@ margin-right: 4rem ;
   align-self: flex-start;
   margin: 1rem;
 }
-.adminModalSrcText{
-  margin-bottom: 1rem;
+.adminModalSrcText-phone{
+  display: block;
+  margin: 0.5rem auto;
   text-align: center;
   border: 1px solid black;
   border-radius: 0;
+  width: 80%;
+  display: block;
+  height: 2rem;
+} 
+.adminModalSrcText{
+  display: none;
 } 
 
-
-
-/* smartphone */
-
-
-
-
-/* *{
-  box-sizing: border-box;
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
+.adminModalUpdateButton{
+  width: 10rem;
+  height: fit-content;
+  background-color: brown;
+  font-size: 1.2rem;
+  color: white;
+  align-self: center;
+  margin-top: 0.5rem;
 }
 
-.container{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.upperBar{
-height: 20vh;
-width: 100vw;
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-}
-.upperLeft{
-  height: 100%;
-  width: 25%;
-}
-.upperCenter{
-  height: 100%;
-  width: 50%;
-}
-.upperRight{
-  height: 100%;
-  width: 25%;
-}
-.searchBar{
-  width: 100vw;
-  height:15vh
-}
-.mainPage{
-  width: 100vw;
- height: 60vh;
-}
-.lowerBar{
-  width: 100vw;
-
-  grid-area: 5vh;
-} */
 
 
 
+/* computer */
 
 @media (min-width:40rem){
 
-/* computer */
 
 .comp{
     box-sizing: border-box;
@@ -707,6 +730,9 @@ justify-content: space-between;
 .upperLeft{
     margin-left: 2rem;
 }
+.upperLeftLogin{
+  margin-left: 2rem;
+}
 .upperCenter{
   display: block;
 color: #d8dfe6;
@@ -728,7 +754,7 @@ font-family: Georgia, serif;
     font-size: 1rem;
     color:white;
     padding:0.2rem;
-    margin-bottom: 0.5rem;
+    margin: auto;
 }
 .LoginOrJoin:hover{
   background-color: white;
@@ -778,10 +804,15 @@ font-family: Georgia, serif;
   text-align: center;
 }
 .adminAddBook h3{
+  display: block;
   margin-bottom: 0;
 }
 .adminAddBook h6{
+  display: block;
   margin-top: 0.2rem;
+}
+.phoneAdminAddBook{
+  display: none;
 }
 .adminAddBookForm{
   display: flex;
@@ -797,6 +828,7 @@ font-family: Georgia, serif;
 }
 .adminAddBook input{
   margin-top: 1rem;
+  height: 1.5rem;
   text-align: center;
 }
 .addedBookDescription{
@@ -805,13 +837,19 @@ font-family: Georgia, serif;
   max-width: inherit;
   min-height: 4rem;
   resize: vertical;
+  font-family: 'Roboto Condensed';
+  font-size: 0.9rem;
 }
-.addBookError{
+#addBookError{
+  display: block;
   margin-top: 1rem;
   width: inherit;
   height: fit-content;
   color: red;
 }
+#addBookError-phone{
+  display: none;
+ }
 .button{
     margin-top: 2rem;
     background-color: turquoise;
@@ -857,7 +895,7 @@ font-family: Georgia, serif;
   border: 0.5px solid black;
   text-align: center;
   height: 35vh;
-  width: 25.5vw;
+  width: 25.7vw;
   margin-left: 0;
   margin-top: 0;
 }
@@ -875,15 +913,17 @@ font-family: Georgia, serif;
     justify-content: space-between;
 }
 .mainPage .cell .bookTitle{
+  font-size: 1.2rem;
     cursor: pointer;
     margin: 0.2rem;
 }
 .mainPage .cell .bookAuthor{
     margin-top: 0.5rem;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
 }
 .mainPage .cell .bookPrice{
     color: rgb(5, 177, 117);
+    font-size: 1.2rem;
 }
 .mainPage .cell .bookAddToBasket{
     padding: 0.5rem;
@@ -996,6 +1036,7 @@ margin-right: 6rem ;
   text-align: left;
   margin-left: 5.4rem;
 }
+
 .signInForm input{
     background-color: #F1F1F1;
     border: none;
@@ -1023,7 +1064,7 @@ margin-right: 6rem ;
     height: 2rem;
     border: none;
     margin-left: -6rem;
-    margin-top: 5rem;
+    margin-top: 3rem;
     margin-bottom: -1.3rem;
     cursor: pointer;
 }
@@ -1044,22 +1085,24 @@ margin-right: 6rem ;
 }
 
 .modal {
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px;
+    padding-bottom: 100px; 
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
   }
   
   /* Modal Content */
   .modal-content {
     background-color: #fefefe;
     margin: auto;
+    margin-bottom: 10rem;
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
@@ -1067,7 +1110,37 @@ margin-right: 6rem ;
     justify-content: space-around;
     flex-direction: row;
   }
-
+  .alertModal-phone{
+    display: none; 
+  }
+  .alertModal{
+    display: block;
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 100px;
+    padding-bottom: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%;
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+  }
+  .alertNotLogged-phone{
+    display: none;
+  }
+  .alertNotLogged{
+    display: block;
+    background-color: #fefefe;
+    margin: 10rem auto;
+    padding: 20px;
+    color: red;
+    border: 1px solid #888;
+    width: 50%;
+    text-align: center;
+    font-size: 1.5rem;
+  }
   .modalCart-phone{
     display: none;
   }
@@ -1125,8 +1198,8 @@ margin-right: 6rem ;
       float: left;
       margin: 0.5rem;
       flex-basis: 30%;
-      width: 307px;
-      height: 400px;
+      width: fit-content;
+      height: 30rem;
   }
   .modaldata{
       flex-basis: 60%;
@@ -1137,25 +1210,27 @@ margin-right: 6rem ;
       text-align: center;
   }
   .bookInfoTitle{
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
   }
   .bookInfoAuthor{
     margin-top: 0.5rem;
     flex-basis: 10%;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
   .bookInfoDescription{
-      font-size: 0.9rem;
+      font-size: 1.1rem;
       flex-basis: 50%;
   }
   .bookInfoPrice{
     font-size: 1.5rem;
+    color:rgb(5, 177, 117);
     cursor:text;
   }
   .bookInfoAddToCart{
     border-radius:0%;
     margin-top: 0.2rem;
+    line-height: 2;
     width: inherit;
   }
   .bookInfoPriceAndButton{
@@ -1204,6 +1279,7 @@ margin-right: 6rem ;
   }
   
   .options-header{
+    overflow: hidden;
     grid-area: headerO;
     text-align: center;
     align-self: center;
@@ -1211,12 +1287,16 @@ margin-right: 6rem ;
     font-weight: bold;
     /* border-right: 1px solid black; */
   }
-  .quantity-header{
+
+  .quantity-header{  
     grid-area: headerQ;
     text-align: center;
     align-self: center;
     height: fit-content;
     font-weight: bold;
+    max-width: max-content;
+    overflow: hidden;
+    margin-left: 1.3rem;
     /* border-right: 1px solid black; */
   }
   .title-header{
@@ -1252,16 +1332,18 @@ margin-right: 6rem ;
     grid-area: quantity; 
   }
   .cart-options{
-    grid-area: option;
-    }
+  display: block;
+  grid-area: option;
+  }
+
   #cart-totalPrice{
     grid-area: footerPrice;
     text-align: center;
-    line-height: 4.5;
     border-top: 1px solid #ccc;
   }
   .bookTitleInCart,.bookPriceInCart,.bookQuantityInCart{
     border: 1px solid #ccc;
+    overflow-x: auto;
   }
   .bookOptionsInCart{
     display: flex;
@@ -1272,8 +1354,8 @@ margin-right: 6rem ;
   }
   .bookOptionsInCart span{
     cursor: pointer;
-    height: inherit;
-    width: inherit;
+    height: 100%;
+    width: 33%;
   }
   
   #cart-payButton{
@@ -1310,12 +1392,33 @@ margin-right: 6rem ;
     margin: 1rem;
   }
   .adminModalSrcText{
+    display: block;
     margin-bottom: 1rem;
     text-align: center;
     border: 1px solid black;
     border-radius: 0;
+    width: 10rem;
+    height: 2rem;
   } 
+  .adminModalSrcText-phone{
+    display: none;
+  }
 
+  .adminModalUpdateButton{
+    width: 10.4rem;
+    height: fit-content;
+    border-radius: 0;
+    background-color: brown;
+    font-size: 1.2rem;
+    transition: background .3s;
+    cursor: pointer;
+    color: white;
+  }
+  .adminModalUpdateButton:hover{
+    background-color: white;
+    color: brown;
+    border: 1px solid brown;
+  }
 }
 
 /* smartphone */

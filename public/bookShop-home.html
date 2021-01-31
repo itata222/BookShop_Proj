@@ -21,12 +21,24 @@
             <blockquote class="upperCenter">
                " Take A Good Book To Bad With You - Books Do Not Snore. "
             </blockquote>
-            <div class="none phoneAdminAddBook"></div>
             <div class="upperRight-phone upperRight">
                 <a href="./bookShop-login&join.html" class="LoginOrJoin block" id="LoginOrJoin">Log In/Join</a>
                 <a href="./bookShop-home.html" class="logout none" id="logout">Log Out</a>
                 <a href="./bookShop-cart.html" target="_blank" class="none myCartUrl" id="myCartUrl">My Cart</a>
             </div>
+        </div>
+        <div class="phoneAdminAddBook">
+            <h3>ADD Book</h3>
+            <h6>Admins option</h6>
+            <form class="adminAddBookForm-phone" id="adminAddBookForm-phone">
+                <input id="addedBookTitle-phone" class="addedBookTitle" type="text" placeholder="Title"/>
+                <input id="addedBookAuthor-phone" class="addedBookAuthor" type="text" placeholder="Author"/>
+                <textarea id="addedBookDescription-phone" class="addedBookDescription" type="text" placeholder="Description"></textarea>
+                <input id="addedBookPrice-phone" class="addedBookPrice" type="number" placeholder="Price"/>
+                <input id="addedBookImageSrc-phone" class="addedBookImageSrc" type="text" placeholder="Image source"/>
+                <div class="addBookErrorPhone none" id="addBookError-phone"></div>
+                <button class="button" id="adminAddButton-phone">Add Book</button>
+            </form>
         </div>
         <div class="phoneSearchBar">
             <form id="searchForm-phone" class="searchForm-phone">
@@ -57,7 +69,7 @@
                 <textarea class="addedBookDescription" id="addedBookDescription" type="text" placeholder="Description"></textarea>
                 <input class="addedBookPrice" id="addedBookPrice" type="number" placeholder="Price"/>
                 <input class="addedBookImageSrc" id="addedBookImageSrc" type="text" placeholder="Image source"/>
-                <button class="button">Add Book</button>
+                <button class="button" id="adminAddButton">Add Book</button>
             </form>
             <div class="addBookError none" id="addBookError"></div>
         </div>

@@ -17,12 +17,24 @@ const signInForm = document.getElementById('signInForm')
 const JoinForm = document.getElementById('joinForm')
 const adminAddBookDiv = document.getElementById('adminAddBook');
 const adminAddBookForm = document.getElementById('adminAddBookForm')
+const adminAddBookDivPhone = document.getElementsByClassName('phoneAdminAddBook')[0];
+const adminAddBookFormPhone = document.getElementById('adminAddBookForm-phone')
 const addedBookTitle = document.getElementById('addedBookTitle');
 const addedBookAuthor = document.getElementById('addedBookAuthor');
 const addedBookDescription = document.getElementById('addedBookDescription');
 const addedBookPrice = document.getElementById('addedBookPrice');
 const addedBookImageSrc = document.getElementById('addedBookImageSrc');
-const addBookError = document.getElementById('addBookError')
+const alertNotLoggedModalPhone = document.getElementsByClassName('alertNotLogged-phone')[0]
+const alertNotLoggedModal = document.getElementsByClassName('alertNotLogged')[0]
+
+const addedBookTitlePhone = document.getElementById('addedBookTitle-phone');
+const addedBookAuthorPhone = document.getElementById('addedBookAuthor-phone');
+const addedBookDescriptionPhone = document.getElementById('addedBookDescription-phone');
+const addedBookPricePhone = document.getElementById('addedBookPrice-phone');
+const addedBookImageSrcPhone = document.getElementById('addedBookImageSrc-phone');
+
+const addBookError = document.getElementById('addBookError');
+const addBookErrorPhone = document.getElementById('addBookError-phone');
 
 const joinUrl = 'http://localhost:4000/bookshop/create-user'
 const loginUrl = 'http://localhost:4000/bookshop/login';
@@ -54,10 +66,9 @@ changeToUserPage();
 if (connectedUserIsAdmin === 'true') {
     connectedUserIsAdmin = true;
     enterToCart.className = 'myCartUrl none'
-    adminAddBookDiv.className = "adminAddBook block";
+    adminAddBookDiv.className = "block adminAddBook";
     adminAddBookForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        console.log(token)
         const title = addedBookTitle.value;
         const author = addedBookAuthor.value;
         const description = addedBookDescription.value;
@@ -74,7 +85,6 @@ if (connectedUserIsAdmin === 'true') {
         })
             .then(response => response.json())
             .then((resJson) => {
-
                 if (!resJson.message) {
                     mainPage.appendChild(createCell(resJson))
                     addedBookTitle.value = "";
@@ -82,21 +92,60 @@ if (connectedUserIsAdmin === 'true') {
                     addedBookDescription.value = "";
                     addedBookPrice.value = "";
                     addedBookImageSrc.value = "";
-                    alert('Added Book successfully');
+                    console.log('1')
+                    alertModal('Added Book successfully');
                 }
                 else
                     throw resJson
 
             }).catch((err) => {
                 console.log(err)
-                addBookError.className = "addBookError block";
+                addBookError.className = `addBookError block`;
                 addBookError.innerHTML = err.message.toUpperCase();
+
+            })
+    })
+    adminAddBookFormPhone.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const title = addedBookTitlePhone.value;
+        const author = addedBookAuthorPhone.value;
+        const description = addedBookDescriptionPhone.value;
+        const price = parseInt(addedBookPricePhone.value);
+        const image = addedBookImageSrcPhone.value;
+        const data = { title, author, description, price, image };
+        fetch(adminAddBookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then((resJson) => {
+                if (!resJson.message) {
+                    mainPage.appendChild(createCell(resJson))
+                    addedBookTitlePhone.value = "";
+                    addedBookAuthorPhone.value = "";
+                    addedBookDescriptionPhone.value = "";
+                    addedBookPricePhone.value = "";
+                    addedBookImageSrcPhone.value = "";
+                    alertModal('Added Book successfully');
+                }
+                else
+                    throw resJson
+
+            }).catch((err) => {
+                console.log(err)
+                addBookErrorPhone.className = `addBookErrorPhone block`;
+                addBookErrorPhone.innerHTML = err.message.toUpperCase();
 
             })
     })
 }
 else {
-    adminAddBookDiv.className = "adminAddBook none"
+    adminAddBookDiv.className = "adminAddBook none";
+    adminAddBookDivPhone.className = "phoneAdminAddBook none"
     connectedUserIsAdmin = false;
 }
 
@@ -109,9 +158,7 @@ const createCell = (book) => {
     bookImg.className = 'bookImg';
     bookImg.src = book.image;
     bookImg.addEventListener('click', (event) => {
-        console.log('1')
         event.preventDefault();
-        console.log('2')
         createModal(book)
     })
     const bookData = document.createElement('div')
@@ -148,21 +195,25 @@ const createCell = (book) => {
                     throw new Error(res.message)
             }).then((resJson) => {
                 console.log(resJson)
-                alert('deleted book: ' + resJson.title)
+                alertModal('deleted book: ' + resJson.title)
             }).catch((err) => {
-                console.log(err)
+                alertModal(err)
             })
         })
     }
     else {
         bookAddToBasket.innerHTML = 'Add to basket';
         if (!localStorage.getItem('myToken'))
-            bookAddToBasket.addEventListener('click', notLoggedTryToAdd)
-        else
+            bookAddToBasket.addEventListener('click', (event) => {
+                event.preventDefault();
+                alertModal("Hey! You must Login first to make a purchase")
+            })
+        else {
             bookAddToBasket.addEventListener('click', (event) => {
                 event.preventDefault();
                 addToCartFunc(book)
             })
+        }
     }
     priceAndButtonContainer.appendChild(bookPrice)
     priceAndButtonContainer.appendChild(bookAddToBasket)
@@ -174,8 +225,24 @@ const createCell = (book) => {
     cell.appendChild(bookData)
     return cell
 }
-const notLoggedTryToAdd = () => {
-    alert('Hey! You must Login first to make a purchase')
+const alertModal = (message) => {
+    const alertModal = document.createElement('div')
+    alertModal.className = "alertModal alertModal-phone";
+    const alertModalContent = document.createElement('div')
+    alertModalContent.className = 'alertNotLogged alertNotLogged-phone'
+    alertModalContent.innerHTML = message;
+
+    window.addEventListener('click', (event) => {
+        const currentModal = document.querySelector('.modal')
+        if (event.target == currentModal) {
+            currentModal.remove();
+        }
+        if (event.target == alertModal) {
+            alertModal.remove();
+        }
+    })
+    alertModal.appendChild(alertModalContent)
+    mainPage.appendChild(alertModal)
 }
 
 const renderBooksGet = (url) => {
@@ -247,22 +314,36 @@ const createModal = (book) => {
                 else
                     throw new Error(res.message)
             }).then((resJson) => {
-                alert('deleted book: ' + resJson.title)
+                alertModal('deleted book: ' + resJson.title)
             }).catch((err) => {
                 console.log(err)
+                alertModal(err)
             })
         })
     }
     else {
         bookInfoAddToBasketButton.innerHTML = 'Add to basket';
         if (!localStorage.getItem('myToken'))
-            bookInfoAddToBasketButton.addEventListener('click', notLoggedTryToAdd)
+            bookInfoAddToBasketButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                alertModal("Hey! You must Login first to make a purchase")
+            })
         else
             bookInfoAddToBasketButton.addEventListener('click', (event) => {
                 event.preventDefault();
                 addToCartFunc(book)
             })
     }
+    const adminModalSrcText = document.createElement('input')
+    adminModalSrcText.setAttribute('type', 'text');
+    adminModalSrcText.setAttribute('placeholder', 'Image src');
+    adminModalSrcText.className = "adminModalSrcText";
+    const adminModalSrcTextPhone = document.createElement('input')
+    adminModalSrcTextPhone.setAttribute('type', 'text');
+    adminModalSrcTextPhone.setAttribute('placeholder', 'Image src');
+    adminModalSrcTextPhone.className = "adminModalSrcText-phone";
+    adminModalSrcText.addEventListener('click', (event) => event.stopPropagation())
+    adminModalSrcTextPhone.addEventListener('click', (event) => event.stopPropagation())
     const bookModal = document.createElement('div')
     bookModal.className = "modal modal-phone block"
     const bookModalContent = document.createElement('div')
@@ -270,7 +351,6 @@ const createModal = (book) => {
     const closeModal = document.createElement('span')
     closeModal.className = "closeModal"
     closeModal.innerHTML = '&times';
-    console.log('3')
     const modalData = document.createElement('div')
     modalData.className = 'modaldata modaldata-phone'
     bookInfoTitle.innerHTML = selectedTitle
@@ -283,36 +363,36 @@ const createModal = (book) => {
     modalData.appendChild(bookInfoAuthor)
     modalData.appendChild(bookInfoDescription)
     modalData.appendChild(bookInfoPriceAndButton)
+
     closeModal.onclick = function () {
         bookModal.remove();
     }
-    window.onclick = function (event) {
-        if (event.target == bookModal) {
-            bookModal.remove();
+    window.addEventListener('click', (event) => {
+        const currentModal = document.querySelector('.modal')
+        if (event.target == currentModal) {
+            currentModal.remove();
         }
-    }
+        if (event.target == alertModal) {
+            alertModal.remove();
+        }
+    })
     if (connectedUserIsAdmin) {
-        console.log(connectedUserIsAdmin, 'asdasdsa')
+
         bookInfoTitle.setAttribute('contenteditable', 'true')
         bookInfoAuthor.setAttribute('contenteditable', 'true')
         bookInfoDescription.setAttribute('contenteditable', 'true')
         bookInfoPrice.setAttribute('contenteditable', 'true');
-        const adminModalChangesHeader = document.createElement('h4')
-        adminModalChangesHeader.innerHTML = "Admin's Updates"
+
         const adminModalForm = document.createElement('form');
         adminModalForm.className = "adminModalForm";
-        const adminModalSrcText = document.createElement('input')
-        adminModalSrcText.setAttribute('type', 'text');
-        adminModalSrcText.setAttribute('placeholder', 'image src');
-        adminModalSrcText.className = "adminModalSrcText";
         const adminModalUpdateButton = document.createElement('button');
-        adminModalUpdateButton.className = "adminModalUpdateButton";
+        adminModalUpdateButton.className = "adminModalUpdateButton button";
         adminModalUpdateButton.innerHTML = 'Update Changes';
         adminModalForm.appendChild(adminModalSrcText);
         adminModalForm.appendChild(adminModalUpdateButton);
         adminModalForm.addEventListener('click', (event) => {
             event.preventDefault();
-            const image = adminModalSrcText.value;
+            const image = adminModalSrcText.value || adminModalSrcTextPhone.value;
             const title = bookInfoTitle.innerHTML;
             const author = bookInfoAuthor.innerHTML;
             const description = bookInfoDescription.innerHTML;
@@ -336,19 +416,20 @@ const createModal = (book) => {
                 else
                     throw new Error(res.message)
             }).then((resJson) => {
-                console.log(resJson)
-
+                alertModal('Updated Book Successfully')
             }).catch((err) => {
-                console.log(err)
+                alertModal(err)
             })
         })
         bookModalContent.appendChild(adminModalForm)
     }
     bookModalContent.appendChild(img)
+    bookModalContent.appendChild(adminModalSrcTextPhone)
     bookModalContent.appendChild(modalData)
     bookModalContent.appendChild(closeModal)
     bookModal.appendChild(bookModalContent)
     mainPage.appendChild(bookModal)
+    console.log('2')
 }
 
 
@@ -432,16 +513,17 @@ const bookAddedModal = (bookTitle) => {
     }
     const checkOutAndPayButton = document.createElement('button');
     checkOutAndPayButton.className = "button checkAndProBut"
-    checkOutAndPayButton.innerHTML = "Proceed to Checkout"
+    checkOutAndPayButton.innerHTML = "Proceed to Checkout";
     checkOutAndPayButton.addEventListener('click', (event) => {
         event.preventDefault();
         window.location.href = 'http://localhost:4000/bookShop-cart.html';
     })
-    window.onclick = function (event) {
-        if (event.target == bookModal) {
-            bookModal.remove();
+    window.addEventListener('click', (event) => {
+        const currentModal = document.querySelector('.modal')
+        if (event.target == currentModal) {
+            currentModal.remove();
         }
-    }
+    })
     bookModalContent.appendChild(boughtBook)
     bookModalContent.appendChild(checkOutAndPayButton)
     bookModalContent.appendChild(continueShoppingButton)

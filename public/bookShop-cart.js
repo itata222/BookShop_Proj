@@ -6,6 +6,12 @@ const cartPrices = document.getElementById('cart-prices');
 const cartPayButton = document.getElementById('cart-payButton');
 const cartTotalPrice = document.getElementById('cart-totalPrice');
 const myCartUrl = 'http://localhost:4000/bookshop/user-cart';
+let totalPriceP = document.createElement('p')
+totalPriceP.className = "totalPriceP";
+let totalQuantityP = document.createElement('p')
+totalQuantityP.className = "totalQuantityP"
+cartTotalPrice.appendChild(totalPriceP)
+cartTotalPrice.appendChild(totalQuantityP);
 
 const allTitlesContainer = document.getElementById('cart-books');
 const pricesContainer = document.getElementById('cart-prices');
@@ -26,7 +32,8 @@ cartPayButton.addEventListener('click', (event) => {
         cartOptions.removeChild(cartOptions.lastChild)
     while (cartPrices.children.length > 0)
         cartPrices.removeChild(cartPrices.lastChild)
-    cartTotalPrice.innerHTML = `TOTAL PRICE: 0$ ---- TOTAL QUANTITY: 0`;
+    totalPriceP.innerHTML = `TOTAL PRICE: 0$`
+    totalQuantityP.innerHTML = `TOTAL QUANTITY: 0`;
     alert('Thank You for your Purchase')
 })
 
@@ -69,7 +76,7 @@ const getBooksFromDB = () => {
             cartOptions.appendChild(bookOptions)
             const bookOptionsPlus = document.createElement('span');
             bookOptionsPlus.className = "bookOptionsPlus";
-            bookOptionsPlus.innerHTML = '&plus;'
+            bookOptionsPlus.innerHTML = '&#65291'
             bookOptionsPlus.addEventListener('click', (event) => {
                 event.preventDefault();
                 PlusBookToCart(booksFCPrices[book], bookPrice, bookQuantity);
@@ -100,7 +107,9 @@ const getBooksFromDB = () => {
             bookPrice.innerHTML = booksFCPrices[book] * booksFC[book];
             bookQuantity.innerHTML = booksFC[book];
         }
-        cartTotalPrice.innerHTML = `TOTAL PRICE: ${totalPrice}$ ---- TOTAL QUANTITY: ${totalQuantity}`
+
+        totalPriceP.innerHTML = `TOTAL PRICE: ${totalPrice}$`
+        totalQuantityP.innerHTML = `TOTAL QUANTITY: ${totalQuantity}`;
     }).catch((err) => {
         console.log(err)
         alert(err)
@@ -178,7 +187,8 @@ const updateCartOnDB = () => {
             totalPrice += bookDoc.book.price;
         }
         console.log(totalPrice, totalQuantity)
-        cartTotalPrice.innerHTML = `TOTAL PRICE: ${totalPrice}$ ---- TOTAL QUANTITY: ${totalQuantity}`;
+        totalPriceP.innerHTML = `TOTAL PRICE: ${totalPrice}$`
+        totalQuantityP.innerHTML = `TOTAL QUANTITY: ${totalQuantity}`;
     }).catch((err) => {
         console.log(err)
     })
