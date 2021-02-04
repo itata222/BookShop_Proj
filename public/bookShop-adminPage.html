@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./bookShop.css">
+    <title>Book-Shop</title>
+</head>
+<body class="phone comp">
+    <div class="container">
+        <div class="upperBar">
+            <div class="upperLeft">
+                <h1>
+                    <a href="./bookShop-home.html">
+                        <img src="https://d3ogvdx946i4sr.cloudfront.net/assets/v2.19.35/img/logo.svg" alt="Bookdepository.com">
+                    </a>
+				</h1>
+			</div>
+            <blockquote class="upperCenter">
+               " Take A Good Book To Bad With You - Books Do Not Snore. "
+            </blockquote>
+            <div class="upperRight-phone upperRight">
+                <a href="./bookShop-login&join.html" class="LoginOrJoin none" id="LoginOrJoin">Log In/Join</a>
+                <a href="./bookShop-home.html" class="logout" id="logout-admin">Log Out</a>
+                <a href="./bookShop-cart.html" target="_blank" class="myCartUrl none" id="myCartUrl">My Cart</a>
+            </div>
+        </div>
+        <div class="phoneAdminAddBook">
+            <h3>ADD Book</h3>
+            <h6>Admins option</h6>
+            <form class="adminAddBookForm-phone" id="adminAddBookForm-phone">
+                <input id="addedBookTitle-phone" class="addedBookTitle" type="text" placeholder="Title"/>
+                <input id="addedBookYearPublished-phone" class="addedBookYearPublished" type="number" placeholder="Year Published"/>
+                <input id="addedBookCategory-phone" class="addedBookCategory" type="text" placeholder="Category"/>
+                <input id="addedBookAuthor-phone" class="addedBookAuthor" type="text" placeholder="Author"/>
+                <textarea id="addedBookDescription-phone" class="addedBookDescription" type="text" placeholder="Description"></textarea>
+                <input id="addedBookPrice-phone" class="addedBookPrice" type="number" placeholder="Price"/>
+                <input id="addedBookImageSrc-phone" class="addedBookImageSrc" type="text" placeholder="Image source"/>
+                <div class="addBookErrorPhone none" id="addBookError-phone"></div>
+                <button class="button" id="adminAddButton-phone">Add Book</button>
+            </form>
+        </div>
+        <div class="phoneSearchBar">
+            <form id="searchForm-phone" class="searchForm-phone">
+                <input type="text" id="searchTitleText-phone" class="searchTitleText searchTitleText-phone" placeholder="Book's title"/>
+                <button class="button"id="searchButton-phone">Search</button>
+            </form>
+        </div>
+        <div class="mainPage" id="mainPage">
+           
+        </div>
+        <div class="searchBar">
+            <form id="searchForm" class="searchForm">
+                <label>Book Title</label>
+                <input type="text" id="searchTitleText" class="searchTitleText"/>
+                <label>Minimum Price</label>
+                <input type="number" id="searchMinPriceText" class="searchMinPriceText" />
+                <label>Maximum Price</label>
+                <input type="number" id="searchMaxPriceText" class="searchMaxPriceText" />
+                <button class="button">Search</button>
+            </form>
+        </div>
+        <div class="adminAddBook" id="adminAddBook">
+            <h3>ADD Book</h3>
+            <h6>Admins option</h6>
+            <form class="adminAddBookForm" id="adminAddBookForm">
+                <input class="addedBookTitle" id="addedBookTitle" type="text" placeholder="Title"/>
+                <input id="addedBookYearPublished" class="addedBookYearPublished" type="number" placeholder="Year Published"/>
+                <input id="addedBookCategory" class="addedBookCategory" type="text" placeholder="Category"/>
+                <input class="addedBookAuthor" id="addedBookAuthor" type="text" placeholder="Author"/>
+                <textarea class="addedBookDescription" id="addedBookDescription" type="text" placeholder="Description"></textarea>
+                <input class="addedBookPrice" id="addedBookPrice" type="number" placeholder="Price"/>
+                <input class="addedBookImageSrc" id="addedBookImageSrc" type="text" placeholder="Image source"/>
+                <button class="button" id="adminAddButton">Add Book</button>
+            </form>
+            <div class="addBookError none" id="addBookError"></div>
+            <div class="discountContainer" id="discountContainer">
+                <h3>Change Discount Percentage</h3>
+                <h6>Admins option</h6>
+                <form class="adminDiscountForm" id="adminDiscountForm">
+                    <input type="number" class="discountText" id="discountText" placeholder="Discount Percentage">
+                    <button class="discountButton button" id="discountButton">Update Percentage Discount</button>
+                </form>
+            </div>
+        </div>
+        <footer class="lowerBar">
+            <div class="footer-left">
+                © Copyright - Itamar-Hagai
+            </div>
+            <div class="footer-right">
+                
+            </div>
+        </footer>
+    </div>
+    <script src="./bookshop-adminPage.js"></script>
+</body>
+</html>

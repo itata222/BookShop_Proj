@@ -7,6 +7,17 @@ const bookSchema = new mongoose.Schema({
         trim: true,
 
     },
+    category: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    year_published: {
+        type: Number,
+        required: true,
+        min: 1500,
+        max: 2025
+    },
     title: {
         type: String,
         required: true,
@@ -16,7 +27,6 @@ const bookSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-
     },
     description: {
         type: String,

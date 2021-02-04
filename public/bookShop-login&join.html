@@ -33,6 +33,10 @@
                 <form class="signInForm signInForm-phone" id="signInForm">
                     <input type="email" id="signin-email-text" placeholder="Email"/>
                     <input type="password" id="signin-password-text" placeholder="Password"/>
+                    <div class="signin-isAdminContainer">
+                        <label for="isAdmin" class="signin-isAdmin-label">Sign me as Admin</label> 
+                        <input type="checkbox" id="signin-isAdmin-checkbox" name="isAdmin"><br>
+                    </div>
                     <div class="none errorLogin errorLogin-phone">Unable to log-in</div>
                     <div class="none successLogIn">Welcome Back </div>
                     <button class="phoneLogBut compLogBut">Sign In</button>

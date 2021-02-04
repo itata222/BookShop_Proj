@@ -1,6 +1,47 @@
 /* smartPhone */
 
-
+.onLoadModal{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 3; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.onLoadModalContent{
+  background-color: #fefefe;
+  margin: 35% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 50%;
+  width: 45vh; /* Could be more or less, depending on screen size */
+  height: 45vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.onLoadModalp1{
+  display: none;
+}
+.onLoadModalp2{
+  margin-top: 6rem;
+  text-align: center;
+  align-self: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  color:rgb(13, 93, 174);
+}
+.onLoadModalp3{
+  text-align: center;
+  align-self: center;
+  margin-bottom: 5rem;
+  margin-top: 0;
+  font-size: 3rem;
+}
 .phone{
   box-sizing: border-box;
   font-family: 'Roboto Condensed', sans-serif;
@@ -12,7 +53,7 @@
   height: 100vh;
   display: grid;
   grid-template-columns:100% ;
-  grid-template-rows: 5rem max-content 4rem auto 2rem;
+  grid-template-rows: 5rem max-content max-content auto 2rem;
   grid-template-areas:
   "headerP "
   "adminP"
@@ -20,6 +61,7 @@
   "mainP "
   "footerP";
 }
+
 .upperBar{
   width: 100%;
   height: 100%;
@@ -41,6 +83,7 @@
 display: none;
 }
 .upperRight-phone{
+  height: 100%;
 margin-right: 1rem;
 text-align: center;
 width: 5rem;
@@ -55,7 +98,7 @@ width: 5rem;
   margin-bottom: 0.5rem;
   grid-area: navP;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-evenly;
 }
 .searchBar{
@@ -86,6 +129,7 @@ width: 5rem;
   padding-bottom: 1rem;
   border-bottom: inset;
 }
+
 .adminAddBookForm-phone input, .adminAddBookForm-phone button{
   width: inherit;
   height: 2rem;
@@ -121,9 +165,8 @@ width: 5rem;
   text-decoration: none;
   font-size: 1rem;
   color:white;
-  padding:0.2rem;
-  height: 100%;
-  line-height: 1.2;
+  height: 50%;
+  margin-top: 0.8rem;
 }
 .logout{
 text-decoration: none;
@@ -134,11 +177,13 @@ cursor: pointer;
 }
 
 .myCartUrl{
-text-align: center;
-text-decoration: none;
-font-size: 1rem;
-color: white;
-padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  font-size: 1rem;
+  color: white;
+  margin-top: -0.1rem;
+  padding: 0.3rem;
+  display: block;
 }
 
 .searchForm-phone{
@@ -258,6 +303,14 @@ line-height: 2;
   border-bottom-width: 100%;
   width: 100%;
   height: max-content;
+}
+.sortSelect{
+  padding: 0.8rem;
+  font-size: 1rem;
+  margin-top: 0.2rem;
+}
+.sortContainer{
+  text-align: center;
 }
 .phoneH3,.compH3{
   margin: 0.5rem auto;
@@ -676,19 +729,625 @@ margin-top: 0.5rem;
   align-self: center;
   margin-top: 0.5rem;
 }
+.bookPage-upperCenter{
+  display: none;
+}
+.bookPage-upperBar{
+  width: 100%;
+  height: 100%;
+  grid-area: headerP;
+  background-color: rgb(30, 57, 107);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.bookPage-upperBar img{
+  line-height: 1.2;
+  height: 100%;
+  width: 60%;
+}
+.bookPage-container{
+  margin: 0 auto;
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 5rem 85vh 40vh 45vh 2rem;
+  grid-template-areas:
+  "headerP"
+  "bookDescription"
+  "bookPriceBox"
+  "otherBooks"
+  "footerBookPage";
+  gap: 3rem;
+}
 
+.bookPage-bookContainer{
+  grid-area: bookDescription;
+  border: 1px solid black;
+  width: 100%;
+  height: 100%;
+  background-color: #F0F0F0;
+  display: grid;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  grid-template-rows: 50% 50%;
+  grid-template-areas:
+  "bookPage-img"
+  "bookPage-info";
+}
+.bookPage-bookimgContainer{
+  grid-area: bookPage-img;
+  width: 90%;
+  height: 90%;
+  margin: auto;
+}
+.bookPage-bookImg{
+  padding-left: 4rem;
+  height: 100%;
+  width: 60%;
+}
+.bookPage-bookInfoContainer{
+  grid-area: bookPage-info;
+  text-align: center;
+  width: 95%;
+  height: 95%;
+  margin: auto;
+}
+.bookPage-bookInfoTitle{
+  font-size: 1rem;
+  font-weight: bolder;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+.bookPage-bookInfoCategory{
+  font-size: 0.8rem;
+  font-weight:lighter;
+  margin-top: 1rem;
+}
+.bookPage-bookInfoYear{
+  font-size: 0.8rem;
+  font-weight:lighter;
+  margin-top: 0.4rem;
+}
+.bookPage-bookInfoAuthor{
+  font-size: 0.8rem;
+  font-weight:lighter;
+  margin-top: 0.4rem;
+}
+.bookPage-bookInfoDescription{
+  font-size: 0.9rem;
+    font-weight: normal;
+    margin: 1rem 0.5rem 0 0.5rem;
+    height: 22vh;
+    margin-top: 1.2rem;
+    overflow: auto;
+}
+.bookPage-bookPriceBox{
+  grid-area: bookPriceBox;
+  border: 1px solid black;
+  background-color: #F0F0F0;
+  max-width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 2fr 3fr 2fr;
+  grid-template-areas: 
+  "bookPage-price"
+  "bookPage-delivery"
+  "bookPage-button";
+}
+.bookPage-bookPrice{
+  grid-area:bookPage-price ;
+  text-align: center;
+  line-height: 2;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: green;
+  width: 90%;
+  border-bottom: 1px solid #ccc; 
+  margin:0.6rem auto;
+}
+.bookPage-bookDelivery{
+  grid-area:bookPage-delivery ;
+  margin-right: 0;
+}
+.free-delivery-text, .availability-text{
+  display: flex;
+}
+.free-delivery-text i{
+  font-size: 2rem;
+  margin-left: 2.5rem;
+}
+.availability-text i{
+  font-size: 2.8rem;
+  margin-left: 2.5rem;
+}
+.icon-rocket:before {
+  float: none;
+  content: "🚀";
+}
+.icon-check:before {
+  float: none;
+  content: "✔";
+}
+.free-delivery-text p{
+  font-weight: bold;
+  margin-left: 1rem;
+}
+.availability-text p{
+  font-weight: bold;
+  margin-left: 1.5rem;
+}
+.bookPage-bookAddToBasketContainer{
+  grid-area:bookPage-button ;
+  color: green;
+  width: 90%;
+  border-top: 1px solid #ccc; 
+  margin:0 auto;
+  margin-top: 0.5rem;
+  align-items: center;
+  text-align: center;
+}
+.bookPage-bookAddToBasketButton{
+  margin-top: 0.5rem;
+  background-color: turquoise;
+  color:white;
+  border: 1px solid white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background .3s;
+}
+.bookPage-bookAddToBasketButton:hover{
+  background-color: white;
+  color:turquoise;
+  border: 1px solid turquoise;
+}
 
+.bookPage-otherBooksContainer{
+  margin-top: -2rem;
+  padding-bottom: 1rem;
+  grid-area: otherBooks;
+  border: 1px solid black;
+  background-color: #F0F0F0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 12% 87%;
+  grid-template-areas:
+  "otherBookHeader"
+  "otherBook";
+}
+.bookPage-otherBooksHeader{
+  grid-area: otherBookHeader;
+  height: fit-content;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding: 0.4rem;
+}
+.bookPage-OtherBooks{
+  grid-area: otherBook;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow-x: auto;
+}
+.otherBookContainer{
+  margin-top: 0.5rem;
+  max-height: 100%;
+  max-width: 95%;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.otherBookImg{
+  align-self: center;
+  height: 70%;
+  width: 45%;
+  cursor: pointer;
+  margin-top: 0;
+}
+.otherBookTitle{
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+  cursor: pointer;
+  min-height: 32px;
+  max-height: 32px;
+  overflow-x: auto;
+}
+.otherBookAuthor{
+  text-align: center;
+  font-size: 0.7rem;
+  margin-bottom: 0.5rem;
+}
+.otherBookPrice{
+  text-align: center;
+  font-size: 1rem;
+  color: green;
+}
+.otherBookAddToBasketForm{
+  align-self: center;
+width: 100%;
+flex-basis: 20%;
+display: contents;
+}
+.otherBookAddToBasketButton{
+  justify-content: center;
+  align-self: center;
+  margin-top: 0.5rem;
+  background-color: turquoise;
+  color:white;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border:none;
+  border-radius: 10%;
+  transition: background .3s;
+  cursor: pointer;
+}
+.otherBookAddToBasketButton:hover{
+    background-color: rgb(79, 209, 196);
+}
+.bookPage-lowerBar{
+  margin-top: 1.2rem;
+  grid-area: footerBookPage;
+  border: 1px solid black;
+  background-color: rgb(30, 57, 107);
+  color: white;
+  width: 100%;
+  height: 100%;
+}
 
+.signin-isAdminContainer{
+  width: 15rem;
+  margin-top: 1rem;
+}
+.signin-isAdmin-label{
+ line-height: 2;
+ font-size: 1.2rem;
+}
+#signin-isAdmin-checkbox{
+float: right;
+width: 2rem;
+margin:0;
+}
 
 /* computer */
 
 @media (min-width:40rem){
 
-
+.onLoadModal{
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 3; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.onLoadModalContent{
+  background-color: #fefefe;
+  margin: 5% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  border-radius: 50%;
+  width: 30rem; /* Could be more or less, depending on screen size */
+  height: 30rem;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.onLoadModalp1{
+  display: block;
+  color: yellow;
+font-size: 2.2rem;
+margin-bottom: 2rem;
+margin-top: 8rem;
+text-align: center;
+align-self: center;
+}
+.onLoadModalp2{
+  margin-top: 0;
+  text-align: center;
+  align-self: center;
+  margin-bottom: 3rem;
+  font-size: 1.5rem;
+  color:rgb(13, 93, 174);
+}
+.onLoadModalp3{
+  text-align: center;
+  align-self: center;
+  margin-bottom: 5rem;
+  margin-top: 0;
+  font-size: 3rem;
+}
 .comp{
     box-sizing: border-box;
     font-family: 'Roboto Condensed', sans-serif;
     margin: 8px;
+}
+.bookPage-container{
+  margin: 0 auto;
+  width: 80%;
+  height: 100vh;
+  display: grid;
+  grid-template-columns:70% 30% ;
+  grid-template-rows: 5rem minmax(65vh,auto) 17rem 2rem;
+  grid-template-areas:
+  "headerBookPage headerBookPage"
+  "bookDescription bookPriceBox"
+  "otherBooks otherBooks"
+  "footerBookPage footerBookPage";
+  gap: 3rem;
+}
+.bookPage-upperBar{
+  grid-area:headerBookPage ;
+  border: 1px solid green;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(30, 57, 107);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.bookPage-upperCenter{
+  display: block;
+  color: #d8dfe6;
+  font-size: 1.5rem;
+  font-family: Georgia, serif;
+}
+.bookPage-upperBar img{
+  height: 3rem;
+  width: auto;
+  line-height: normal;
+}
+.bookPage-bookContainer{
+  grid-area: bookDescription;
+  border: 1px solid black;
+  width: 100%;
+  height: 100%;
+  background-color: #F0F0F0;
+  display: grid;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  grid-template-columns: 35% 65%;
+  grid-template-areas:
+  "bookPage-img bookPage-info";
+}
+.bookPage-bookimgContainer{
+  grid-area: bookPage-img;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+}
+.bookPage-bookImg{
+  padding-left: 1rem;
+  height: 25.2rem;
+  width: 90%;
+}
+.bookPage-bookInfoContainer{
+  grid-area: bookPage-info;
+  margin-left: 0.8rem;
+  width: 95%;
+  height: 100%;
+}
+.bookPage-bookInfoTitle{
+  font-size: 1.5rem;
+  font-weight: bolder;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  padding-bottom: 0.5rem;
+}
+.bookPage-bookInfoCategory{
+  font-size: 0.8rem;
+  font-weight:lighter;
+  margin-top: 1rem;
+}
+.bookPage-bookInfoYear{
+  font-size: 0.8rem;
+  font-weight:lighter;
+  margin-top: 0.4rem;
+}
+.bookPage-bookInfoAuthor{
+  font-size: 0.8rem;
+  font-weight:lighter;
+  margin-top: 0.4rem;
+}
+.bookPage-bookInfoDescription{
+  font-size: 0.9rem;
+  height: 15rem;
+  font-weight: normal;
+  margin-top: 1.2rem;
+  overflow: auto;
+}
+.bookPage-bookPriceBox{
+  grid-area: bookPriceBox;
+  border: 1px solid black;
+  background-color: #F0F0F0;
+  max-width: 105%;
+  height: 65%;
+  display: grid;
+  grid-template-rows: 2fr 3fr 2fr;
+  grid-template-areas: 
+  "bookPage-price"
+  "bookPage-delivery"
+  "bookPage-button";
+}
+.bookPage-bookPrice{
+  grid-area:bookPage-price ;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: green;
+  width: 90%;
+  border-bottom: 1px solid #ccc; 
+  margin:0.6rem auto;
+  line-height: 2;
+}
+.bookPage-bookDelivery{
+  grid-area:bookPage-delivery ;
+  margin-right: 2rem;
+}
+.free-delivery-text, .availability-text{
+  display: flex;
+}
+.free-delivery-text i{
+  font-size: 2rem;
+  margin-left: 2.5rem;
+}
+.availability-text i{
+  font-size: 2.8rem;
+  margin-left: 2.5rem;
+}
+.icon-rocket:before {
+  float: none;
+  content: "🚀";
+}
+.icon-check:before {
+  float: none;
+  content: "✔";
+}
+.free-delivery-text p{
+  font-weight: bold;
+  margin-left: 1rem;
+}
+.availability-text p{
+  font-weight: bold;
+  margin-left: 1.5rem;
+}
+.bookPage-bookAddToBasketContainer{
+  grid-area:bookPage-button ;
+  color: green;
+  width: 90%;
+  border-top: 1px solid #ccc; 
+  margin:0.1rem auto;
+  align-items: center;
+  text-align: center;
+}
+.bookPage-bookAddToBasketButton{
+  margin-top: 1rem;
+  background-color: turquoise;
+  color:white;
+  border: 1px solid white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: background .3s;
+}
+.bookPage-bookAddToBasketButton:hover{
+  background-color: white;
+  color:turquoise;
+  border: 1px solid turquoise;
+}
+
+.bookPage-otherBooksContainer{
+  margin-top: 1rem;
+  padding-bottom: 0;
+  margin-bottom: 1.5rem;
+  grid-area: otherBooks;
+  border: 1px solid black;
+  background-color: #F0F0F0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 10% 80%;
+  grid-template-areas:
+  "otherBookHeader"
+  "otherBook";
+}
+.bookPage-otherBooksHeader{
+  grid-area: otherBookHeader;
+  height: fit-content;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding: 0.4rem;
+}
+.bookPage-OtherBooks{
+  grid-area: otherBook;
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.otherBookContainer{
+  margin-top: 0.2rem;
+  max-height: 90%;
+  max-width: 95%;
+  border-right: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.otherBookImg{
+  align-self: center;
+  height: 60%;
+  width: 40%;
+  cursor: pointer;
+}
+.otherBookTitle{
+  text-align: center;
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+  cursor: pointer;
+  min-height: 32px;
+  max-height: 32px;
+  overflow-x: auto;
+  margin-bottom: 0;
+}
+.otherBookAuthor{
+  text-align: center;
+  font-size: 0.7rem;
+  margin-bottom: 0.3rem;
+}
+.otherBookPrice{
+  text-align: center;
+  font-size: 1rem;
+  color: green;
+}
+.otherBookAddToBasketForm{
+  align-self: center;
+width: 100%;
+flex-basis: 20%;
+display: contents;
+}
+.otherBookAddToBasketButton{
+  justify-content: center;
+  align-self: center;
+  margin-top: 0.2rem;
+  background-color: turquoise;
+  color:white;
+  font-size: 1rem;
+  padding: 0.3rem;
+  border:none;
+  border-radius: 10%;
+  transition: background .3s;
+  cursor: pointer;
+}
+.otherBookAddToBasketButton:hover{
+    background-color: rgb(79, 209, 196);
+}
+.bookPage-lowerBar{
+  margin-top: 1.2rem;
+  grid-area: footerBookPage;
+  border: 1px solid black;
+  background-color: rgb(30, 57, 107);
+  color: white;
+  width: 100%;
+  height: 100%;
 }
 .container{
     margin: 0 auto;
@@ -742,6 +1401,7 @@ font-family: Georgia, serif;
 }
 .upperRight{
   margin-right: 2rem;
+  height: 100%;
 }
 .upperBar img{
     height: 100%;
@@ -749,7 +1409,7 @@ font-family: Georgia, serif;
 }
 
 .LoginOrJoin{
-    
+    height: fit-content;
     text-decoration: none;
     font-size: 1rem;
     color:white;
@@ -761,11 +1421,10 @@ font-family: Georgia, serif;
   color: rgb(30, 57, 107) ;
 }
 .logout{
-  
   text-decoration: none;
   font-size: 1rem;
   color: white;
-  padding: 0.5rem;
+  padding: 0.2rem;
   cursor: pointer;
 }
 .logout:hover{
@@ -778,6 +1437,8 @@ font-family: Georgia, serif;
   font-size: 1rem;
   color: white;
   padding: 0.5rem;
+  display: block;
+  margin-top: 0;
 }
 .myCartUrl:hover{
   background-color: white;
@@ -798,6 +1459,7 @@ font-family: Georgia, serif;
   display: none;
 }
 .adminAddBook{
+  display: block;
   grid-area: admin;
   margin-top: 10rem;
   background-color: #F0F0F0;
@@ -815,6 +1477,7 @@ font-family: Georgia, serif;
   display: none;
 }
 .adminAddBookForm{
+  display: block;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -864,6 +1527,16 @@ font-family: Georgia, serif;
 .button:hover{
     background-color: rgb(79, 209, 196);
 }
+.sortContainer{
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+.red{
+  color: red;
+}
+.yellow{
+  color: yellow;
+}
 .searchForm{
     display: flex;
     flex-direction: column;
@@ -884,13 +1557,18 @@ font-family: Georgia, serif;
     gap: 0.2rem;
     background-color: #F0F0F0;
 }
-/* .mainPage .cellPhone{
-  border: 0.5px solid black;
-  text-align: center;
-  height: 35vh;
-  width: 25.5vw;
-  margin-left: 0;
-} */
+#cartHomeButton{
+  align-self: center;
+  text-decoration: none;
+    font-size: 1rem;
+    line-height: 4;
+    color: white;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+#cartHomeButton:hover{
+  color: #d69e55 ;
+}
 .mainPage .cell{
   border: 0.5px solid black;
   text-align: center;
@@ -933,7 +1611,6 @@ font-family: Georgia, serif;
 .lowerBar{
   grid-area: footer;
   background-color: #2C3E50;
-
 }
 .footerContainer{
   max-width: 70%;
@@ -985,14 +1662,22 @@ font-family: Georgia, serif;
   margin-top: 0.5rem;
   text-align: center;
   max-height: fit-content;
+  font-size: 1.2rem;
 }
 .errorLogin{
   color: red;
-  margin-top: -1rem;
+  margin-top: 1rem;
   margin-left: -5.8rem;
   width: 15rem;
   text-align: center;
   max-height: fit-content;
+  font-size: 1.2rem;
+}
+#logout-admin{
+  height: 100%;
+  line-height: 4;
+  font-size: 1.1rem;
+  display: block;
 }
 .successLogIn{
 max-width: 15rem;
@@ -1022,6 +1707,19 @@ margin-right: 6rem ;
     flex-direction: column;
     align-items: center;
     height: 70%;
+}
+.signin-isAdminContainer{
+  width: 15rem;
+  margin-right: 6rem;
+}
+.signin-isAdmin-label{
+ line-height: 2;
+ font-size: 1.2rem;
+}
+#signin-isAdmin-checkbox{
+float: right;
+width: 2rem;
+margin:0;
 }
 .join-container h3{
     margin-left: 6.2rem;
@@ -1077,11 +1775,24 @@ margin-right: 6rem ;
     margin:2rem 0 0 -4.2rem;
     cursor: pointer;
 }
+.discountContainer{
+  border-top: 1px solid #ccc;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+.discountButton{
+  width: 10rem;
+  font-size: 1.2rem;
+}
 .none{
     display: none;
 }
 .block{
     display: block;
+}
+.sortSelect{
+  padding: 0.3rem;
+  font-size: 0.8rem;
 }
 
 .modal {
@@ -1253,7 +1964,7 @@ margin-right: 6rem ;
   /* } */
   .cartContainer{
     width: 50vw;
-    height: 40vw;
+    height: 30vw;
     margin: 2rem auto;
     background-color: #F0F0F0;
   }
@@ -1262,13 +1973,13 @@ margin-right: 6rem ;
   } */
   .cartBox{
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 5fr;
+    grid-template-columns: 5fr 1fr 1fr 1fr;
     grid-template-rows: 0.6fr 5fr 0.8fr;
     grid-template-areas: 
-    "headerO headerQ headerP headerB"
+    "headerB headerP headerQ headerO"
     "main main main main"
     "footerButton footerButton footerPrice footerPrice";
-    height: 40vw;
+    height: 30vw;
   }
 
   .cart-containers div div{
@@ -1318,9 +2029,9 @@ margin-right: 6rem ;
     grid-area: main;
     overflow: auto;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 5fr;
+    grid-template-columns: 5fr 1fr 1fr 1fr;
     grid-template-areas:
-    "option quantity price titles";
+    "titles price quantity option";
   }
   .cart-books{
     grid-area: titles;

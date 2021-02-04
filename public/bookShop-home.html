@@ -24,21 +24,8 @@
             <div class="upperRight-phone upperRight">
                 <a href="./bookShop-login&join.html" class="LoginOrJoin block" id="LoginOrJoin">Log In/Join</a>
                 <a href="./bookShop-home.html" class="logout none" id="logout">Log Out</a>
-                <a href="./bookShop-cart.html" target="_blank" class="none myCartUrl" id="myCartUrl">My Cart</a>
+                <a href="./bookShop-cart.html" target="_blank" class="myCartUrl" id="myCartUrl">My Cart</a>
             </div>
-        </div>
-        <div class="phoneAdminAddBook">
-            <h3>ADD Book</h3>
-            <h6>Admins option</h6>
-            <form class="adminAddBookForm-phone" id="adminAddBookForm-phone">
-                <input id="addedBookTitle-phone" class="addedBookTitle" type="text" placeholder="Title"/>
-                <input id="addedBookAuthor-phone" class="addedBookAuthor" type="text" placeholder="Author"/>
-                <textarea id="addedBookDescription-phone" class="addedBookDescription" type="text" placeholder="Description"></textarea>
-                <input id="addedBookPrice-phone" class="addedBookPrice" type="number" placeholder="Price"/>
-                <input id="addedBookImageSrc-phone" class="addedBookImageSrc" type="text" placeholder="Image source"/>
-                <div class="addBookErrorPhone none" id="addBookError-phone"></div>
-                <button class="button" id="adminAddButton-phone">Add Book</button>
-            </form>
         </div>
         <div class="phoneSearchBar">
             <form id="searchForm-phone" class="searchForm-phone">
@@ -46,6 +33,15 @@
                 <button class="button"id="searchButton-phone">Search</button>
             </form>
         </div>
+        <label class="sortContainer sortContainer-phone">
+            <select class="sortSelect sortSelect-phone" id="sortSelectPhone">
+              <option value="">Sort By …</option>
+              <option value="PLTH">Price low to high</option>
+              <option value="PHTL">Price high to low</option>
+              <option value="YNTO">Year new to old</option>
+              <option value="YOTN">Year old to new</option>
+            </select>
+          </label>
         <div class="mainPage" id="mainPage">
            
         </div>
@@ -53,25 +49,21 @@
             <form id="searchForm" class="searchForm">
                 <label>Book Title</label>
                 <input type="text" id="searchTitleText" class="searchTitleText"/>
-                <label>Min Price</label>
+                <label>Minimum Price</label>
                 <input type="number" id="searchMinPriceText" class="searchMinPriceText" />
-                <label>Max Price</label>
+                <label>Maximum Price</label>
                 <input type="number" id="searchMaxPriceText" class="searchMaxPriceText" />
                 <button class="button">Search</button>
             </form>
-        </div>
-        <div class="adminAddBook" id="adminAddBook">
-            <h3>ADD Book</h3>
-            <h6>Admins option</h6>
-            <form class="adminAddBookForm" id="adminAddBookForm">
-                <input class="addedBookTitle" id="addedBookTitle" type="text" placeholder="Title"/>
-                <input class="addedBookAuthor" id="addedBookAuthor" type="text" placeholder="Author"/>
-                <textarea class="addedBookDescription" id="addedBookDescription" type="text" placeholder="Description"></textarea>
-                <input class="addedBookPrice" id="addedBookPrice" type="number" placeholder="Price"/>
-                <input class="addedBookImageSrc" id="addedBookImageSrc" type="text" placeholder="Image source"/>
-                <button class="button" id="adminAddButton">Add Book</button>
-            </form>
-            <div class="addBookError none" id="addBookError"></div>
+            <label class="sortContainer">Sort Books: 
+                <select class="sortSelect" id="sortSelect">
+                  <option value="">Sort By …</option>
+                  <option value="PLTH">Price low to high</option>
+                  <option value="PHTL">Price high to low</option>
+                  <option value="YNTO">Year new to old</option>
+                  <option value="YOTN">Year old to new</option>
+                </select>
+              </label>
         </div>
         <footer class="lowerBar">
             <div class="footer-left">

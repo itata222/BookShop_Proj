@@ -1,20 +1,19 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/userModel')
+const Admin = require('../models/adminModel')
 
 const auth = async (req, res, next) => {
     try {
         const token = req.header("Authorization").replace("Bearer ", "");
         const data = jwt.verify(token, process.env.TOKEN_SECRET)
 
-        const user = await User.findOne({
+        const admin = await Admin.findOne({
             _id: data._id,
-            "tokens.token": token,
-            isAdmin: true
+            "tokens.token": token
         })
-        if (!user)
+        if (!admin)
             throw new Error('its not an admin');
 
-        req.user = user;
+        req.admin = admin;
         req.token = token;
         next();
     } catch (err) {

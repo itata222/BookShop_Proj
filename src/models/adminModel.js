@@ -3,18 +3,12 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const userSchema = new mongoose.Schema(
+const adminSchema = new mongoose.Schema(
     {
         name: {
             type: String,
-            trim: true,
-            required: [true, "Must enter a Name"],
-
-        },
-        age: {
-            type: Number,
-            required: [true, 'Must enter an Age'],
-            min: [12, "Minimum age of 12"],
+            required: [true, "Name is required"],
+            trim: true
         },
         email: {
             type: String,
@@ -47,49 +41,41 @@ const userSchema = new mongoose.Schema(
                 },
             },
         ],
-        myBooks: [
-            {
-                book: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "Book"
-                }
-            }
-        ]
     },
     {
         timestamps: true,
     }
 );
 
-userSchema.pre("save", async function (next) {
-    const user = this;
+adminSchema.pre("save", async function (next) {
+    const admin = this;
 
-    if (user.isModified("password")) {
-        user.password = await bcrypt.hash(user.password, 8);
+    if (admin.isModified("password")) {
+        admin.password = await bcrypt.hash(admin.password, 9);
     }
 
     next();
 });
 
-userSchema.statics.findUserbyEmailAndPassword = async (email, password) => {
-    const user = await User.findOne({ email });
-    if (!user) {
+adminSchema.statics.findadminbyEmailAndPassword = async (email, password) => {
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
         throw new Error("unable to login");
     }
 
-    const isPassMatch = await bcrypt.compare(password, user.password);
+    const isPassMatch = await bcrypt.compare(password, admin.password);
     if (!isPassMatch) {
         throw new Error("unable to login");
     }
 
-    return user;
+    return admin;
 };
 
-userSchema.methods.generateAuthToken = async function () {
-    const user = this;
+adminSchema.methods.generateAuthToken = async function () {
+    const admin = this;
     const token = jwt.sign(
         {
-            _id: user._id,
+            _id: admin._id,
         },
         process.env.TOKEN_SECRET,
         {
@@ -97,21 +83,21 @@ userSchema.methods.generateAuthToken = async function () {
         }
     );
 
-    user.tokens = user.tokens.concat({ token });
-    await user.save();
+    admin.tokens = admin.tokens.concat({ token });
+    await admin.save();
     return token;
 };
 
-userSchema.methods.toJSON = function () {
-    const user = this;
-    const userObj = user.toObject();
+adminSchema.methods.toJSON = function () {
+    const admin = this;
+    const adminObj = admin.toObject();
 
-    delete userObj.password;
-    delete userObj.tokens;
+    delete adminObj.password;
+    delete adminObj.tokens;
 
-    return userObj;
+    return adminObj;
 };
 
-const User = mongoose.model("User", userSchema);
+const Admin = mongoose.model("Admin", adminSchema);
 
-module.exports = User;
+module.exports = Admin;
